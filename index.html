@@ -684,6 +684,12 @@
                 headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
             });
 
+            if (resp.status === 503) {
+                serverErrText.textContent = 'Sign-in is temporarily unavailable. Please try again later.';
+                serverError.classList.add('show');
+                return;
+            }
+
             const ct = resp.headers.get('Content-Type') || '';
             if (ct.includes('application/json')) {
                 const data = await resp.json();
