@@ -108,6 +108,12 @@
             display: flex; align-items: center; justify-content: center;
             overflow: hidden;
             box-shadow: 0 0 0 7px rgba(197,154,46,.09), 0 10px 36px rgba(0,0,0,.3);
+            color: inherit;
+            text-decoration: none;
+        }
+        .logo-wrap:focus-visible {
+            outline: 3px solid var(--gold-light);
+            outline-offset: 5px;
         }
         .logo-wrap img { width: 78%; height: 78%; object-fit: contain; }
         .logo-wrap .logo-fb {
@@ -446,11 +452,11 @@
 
         <!-- ── HEADER ── -->
         <header class="header">
-            <div class="logo-wrap">
+            <a class="logo-wrap" href="admission.html" aria-label="Admissions — Bongabon National High School">
                 <img src="assets/logo1.png" alt="BNHS Logo"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
                 <div class="logo-fb">School<br>Logo</div>
-            </div>
+            </a>
             <div class="header-dept">Republic of the Philippines &middot; DepEd Region III &middot; Division of Nueva Ecija</div>
             <div class="header-school">Bongabon National High School</div>
             <div class="header-system">Web-Based Enrollment System</div>
@@ -743,6 +749,7 @@
             else if (reason === 'not_found')     msg = 'Account not found. Please check your email or LRN.';
             else if (reason === 'invalid_email') msg = 'Enter a valid email address.';
             else if (reason === 'invalid_lrn')   msg = 'LRN must be exactly 12 digits.';
+            else if (reason === 'database_unavailable') msg = 'The database is unavailable. Please try again later.';
             else if (reason === 'disabled')      msg = 'This account has been disabled. Contact the administrator.';
             serverErrText.textContent = msg;
             serverError.classList.add('show');

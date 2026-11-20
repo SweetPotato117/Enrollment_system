@@ -1,5 +1,6 @@
 <?php
 session_start();
+define('DB_CONNECTION_FAIL_SILENT', true);
 require_once __DIR__ . '/../models/functions.php';
 
 // Detect AJAX/JSON requests so we can return JSON instead of redirecting
@@ -23,6 +24,17 @@ function redirectLoginFailure($reason) {
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /enrollment_system/index.html');
     exit;
+}
+
+try {
+    $databaseReady = $conn instanceof mysqli && mysqli_ping($conn);
+} catch (mysqli_sql_exception $exception) {
+    $databaseReady = false;
+}
+
+if (!$databaseReady) {
+    if ($isAjax) jsonFail('database_unavailable', 'The database is unavailable. Please try again later.', 503);
+    redirectLoginFailure('database_unavailable');
 }
 
 $input = trim($_POST['emailOrLrn'] ?? '');
