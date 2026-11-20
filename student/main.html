@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Student Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0f2044;
+      --navy-mid: #1a3460;
+      --accent: #c8922a;
+      --accent-light: #f5e6cc;
+      --green: #0a6640;
+      --green-light: #d1fae5;
+      --red: #991b1b;
+      --red-light: #fee2e2;
+      --amber: #92400e;
+      --amber-light: #fef3c7;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-400: #94a3b8;
+      --gray-600: #475569;
+      --gray-800: #1e293b;
+      --white: #ffffff;
+      --radius: 10px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    .mobile-only, .exam-schedule:not(.has-exams) { display: none; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      /* subtle dark overlay to make text more legible over the photo */
+      background-image: linear-gradient(135deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.25) 100%), url('../assets/bghs.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      color: var(--gray-800);
+    }
+
+    /* TOP HEADER BAR */
+    .top-bar {
+      background: var(--navy);
+      padding: .6rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .top-bar .school-name {
+      font-family: 'Playfair Display', serif;
+      color: var(--accent);
+      font-size: 1.05rem;
+      letter-spacing: .03em;
+    }
+    .top-bar .portal-label {
+      font-size: .75rem;
+      color: rgba(255,255,255,.5);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* MAIN LAYOUT */
+    .page {
+      max-width: 860px;
+      margin: 2.5rem auto;
+      padding: 0 1.25rem 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* PROFILE HERO CARD */
+    .profile-card {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      border-radius: var(--radius);
+      padding: 2rem 2.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+      box-shadow: 0 8px 30px rgba(15,32,68,.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      right: -40px; top: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(200,146,42,.07);
+    }
+    .profile-card::after {
+      content: '';
+      position: absolute;
+      right: 40px; bottom: -60px;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: rgba(200,146,42,.05);
+    }
+    .avatar {
+      flex-shrink: 0;
+      width: 68px; height: 68px;
+      border-radius: 50%;
+      background: rgba(200,146,42,.15);
+      border: 2.5px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--accent);
+    }
+    .profile-info { flex: 1; }
+    .profile-info h1 {
+      font-family: 'Playfair Display', serif;
+      color: var(--white);
+      font-size: 1.45rem;
+      margin-bottom: .25rem;
+      letter-spacing: .01em;
+    }
+    .profile-info .lrn-tag {
+      font-size: .78rem;
+      color: rgba(255,255,255,.55);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .profile-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: .6rem;
+      position: relative;
+      z-index: 1;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .35rem .9rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .status-pill.enrolled { background: var(--green-light); color: var(--green); }
+    .status-pill.not-enrolled { background: var(--amber-light); color: var(--amber); }
+    .status-pill.rejected { background: var(--red-light); color: var(--red); }
+    .status-pill .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+    }
+    .status-pill.enrolled .dot { background: var(--green); }
+    .status-pill.not-enrolled .dot { background: var(--amber); }
+    .status-pill.rejected .dot { background: var(--red); }
+
+    .btn-logout {
+      background: rgba(255,255,255,.1);
+      color: rgba(255,255,255,.85);
+      border: 1px solid rgba(255,255,255,.18);
+      padding: .45rem 1.1rem;
+      border-radius: 7px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      transition: background .2s, color .2s;
+    }
+    .btn-logout:hover { background: rgba(239,68,68,.7); color: #fff; border-color: transparent; }
+
+    /* SECTION CARD */
+    .section-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 12px rgba(15,32,68,.07);
+      overflow: hidden;
+    }
+    .section-header {
+      background: var(--navy);
+      padding: .75rem 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+    }
+    .section-header .icon {
+      width: 22px; height: 22px;
+      opacity: .75;
+    }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: .95rem;
+      color: var(--white);
+      letter-spacing: .04em;
+      font-weight: 700;
+    }
+    .section-header .accent-rule {
+      flex: 1;
+      height: 1px;
+      background: rgba(200,146,42,.3);
+    }
+
+    /* INFO TABLE */
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .info-table tr { border-bottom: 1px solid var(--gray-200); }
+    .info-table tr:last-child { border-bottom: none; }
+    .info-table th, .info-table td {
+      padding: .9rem 1.6rem;
+      font-size: .9rem;
+      vertical-align: top;
+    }
+    .info-table .td-label {
+      width: 38%;
+      font-weight: 600;
+      color: var(--gray-600);
+      letter-spacing: .02em;
+      white-space: nowrap;
+      text-align: left;
+    }
+    .info-table td.td-value {
+      color: var(--gray-800);
+    }
+    .info-table tr:nth-child(even) > * { background: var(--gray-50); }
+
+    /* DOCUMENTS TABLE */
+    .docs-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .docs-table thead tr {
+      background: var(--gray-50);
+      border-bottom: 2px solid var(--gray-200);
+    }
+    .docs-table th {
+      padding: .7rem 1.6rem;
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--gray-600);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-align: left;
+    }
+    .docs-table tbody tr {
+      border-bottom: 1px solid var(--gray-200);
+      transition: background .15s;
+    }
+    .docs-table tbody tr:last-child { border-bottom: none; }
+    .docs-table tbody tr:hover td { background: var(--gray-50); }
+    .docs-table td {
+      padding: 1rem 1.6rem;
+      font-size: .88rem;
+      vertical-align: middle;
+    }
+    .docs-table td.doc-name { font-weight: 600; color: var(--gray-800); }
+    .doc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .28rem .75rem;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .doc-badge.approved { background: var(--green-light); color: var(--green); }
+    .doc-badge.pending { background: var(--amber-light); color: var(--amber); }
+    .doc-badge.rejected { background: var(--red-light); color: var(--red); }
+    .doc-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+    .doc-badge.approved::before { background: var(--green); }
+    .doc-badge.pending::before { background: var(--amber); }
+    .doc-badge.rejected::before { background: var(--red); }
+    .remark-text { font-size: .8rem; color: var(--gray-400); margin-top: .3rem; }
+    .remark-text.rejected { color: var(--red); }
+
+    /* EXAM SCHEDULE CARD */
+    .exam-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .exam-table thead tr {
+      background: var(--gray-50);
+      border-bottom: 2px solid var(--gray-200);
+    }
+    .exam-table th {
+      padding: .7rem 1.6rem;
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--gray-600);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-align: left;
+    }
+    .exam-table tbody tr { border-bottom: 1px solid var(--gray-200); }
+    .exam-table tbody tr:last-child { border-bottom: none; }
+    .exam-table td {
+      padding: .95rem 1.6rem;
+      font-size: .88rem;
+    }
+    .exam-table td.curriculum-name { font-weight: 600; color: var(--navy); }
+
+    /* ADMIN MESSAGE */
+    .admin-message {
+      margin: 1.2rem 1.6rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1rem 1.2rem;
+      background: #eef4ff;
+      border: 1px solid #c7d9ff;
+      border-left: 4px solid #3b5fc0;
+      border-radius: 8px;
+    }
+    .admin-message .msg-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: .1rem; }
+    .admin-message .msg-body {}
+    .admin-message .msg-title { font-weight: 700; font-size: .83rem; letter-spacing: .06em; text-transform: uppercase; color: #3b5fc0; margin-bottom: .25rem; }
+    .admin-message .msg-text { font-size: .88rem; color: var(--gray-800); line-height: 1.55; }
+
+    /* EXAM GOOD LUCK */
+    .good-luck {
+      text-align: center;
+      padding: 1.1rem;
+      font-size: .85rem;
+      color: var(--gray-400);
+      font-weight: 500;
+      letter-spacing: .04em;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      padding: 2rem;
+      text-align: center;
+      color: var(--gray-400);
+      font-size: .88rem;
+    }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      font-size: .73rem;
+      color: var(--accent);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding-top: .5rem;
+    }
+
+    /* ANIMATIONS */
+    .section-card { animation: slideUp .45s ease both; }
+    .profile-card { animation: slideUp .3s ease both; }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .section-card:nth-child(2) { animation-delay: .07s; }
+    .section-card:nth-child(3) { animation-delay: .14s; }
+    .section-card:nth-child(4) { animation-delay: .21s; }
+  </style>
+  <link rel="stylesheet" href="portal-mobile.css" media="(max-width: 767px)">
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <header class="top-bar">
+    <img class="mobile-only school-mark" src="../assets/logo1.png" width="38" height="38" alt="">
+    <span class="school-name">Student Enrollment Portal</span>
+    <span class="portal-label">Academic Year 2025–2026</span>
+  </header>
+
+  <main class="page" data-portal-view="overview">
+
+    <!-- PROFILE HERO -->
+    <div class="profile-card">
+      <div class="avatar" id="avatarInitials" aria-hidden="true">—</div>
+      <div class="profile-info">
+        <h1 id="name" tabindex="-1">Loading…</h1>
+        <div class="lrn-tag" id="lrn">LRN: —</div>
+      </div>
+      <div class="profile-actions">
+        <span class="status-pill not-enrolled" id="statusBadge" role="status">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="statusText">Checking status…</span>
+        </span>
+        <button id="logoutBtn" class="btn-logout">&#x2192; Log Out</button>
+      </div>
+    </div>
+
+    <!-- BASIC INFORMATION -->
+    <section class="section-card" id="portal-profile" aria-labelledby="profile-title">
+      <div class="section-header">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#c8922a" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <h2 id="profile-title" tabindex="-1">Student Information</h2>
+        <div class="accent-rule"></div>
+      </div>
+      <table class="info-table" role="table" aria-labelledby="profile-title">
+        <tbody role="rowgroup">
+          <tr role="row">
+            <th class="td-label" scope="row" role="rowheader">Full Name</th>
+            <td class="td-value" id="infoName" role="cell">—</td>
+          </tr>
+          <tr role="row">
+            <th class="td-label" scope="row" role="rowheader">Email Address</th>
+            <td class="td-value" id="email" role="cell">—</td>
+          </tr>
+          <tr role="row">
+            <th class="td-label" scope="row" role="rowheader">Section</th>
+            <td class="td-value" id="section" role="cell">—</td>
+          </tr>
+          <tr role="row">
+            <th class="td-label" scope="row" role="rowheader">Enrolled Curriculum</th>
+            <td class="td-value" id="curriculumList" role="cell">—</td>
+          </tr>
+          <tr role="row">
+            <th class="td-label" scope="row" role="rowheader">Enrollment Status</th>
+            <td class="td-value" id="infoStatus" role="cell">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- DOCUMENT STATUS -->
+    <section class="section-card" id="portal-documents" aria-labelledby="documents-title">
+      <div class="section-header">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#c8922a" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+        <h2 id="documents-title" tabindex="-1">Submitted Documents</h2>
+        <div class="accent-rule"></div>
+      </div>
+      <table class="docs-table" role="table" aria-labelledby="documents-title">
+        <thead role="rowgroup">
+          <tr role="row">
+            <th scope="col" role="columnheader">Document</th>
+            <th scope="col" role="columnheader">Review Status</th>
+            <th scope="col" role="columnheader">Remarks</th>
+          </tr>
+        </thead>
+        <tbody id="documentsTableBody" role="rowgroup">
+          <tr role="row"><td colspan="3" class="empty-state" role="cell">Loading documents…</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ADMIN MESSAGE (conditionally shown) -->
+    <div class="section-card" id="adminMessageCard" style="display:none;">
+      <div class="section-header">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#c8922a" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <h2>Message from Administration</h2>
+        <div class="accent-rule"></div>
+      </div>
+      <div class="admin-message">
+        <div class="msg-icon" aria-hidden="true"></div>
+        <div class="msg-body">
+          <div class="msg-title">Notice</div>
+          <div class="msg-text" id="adminMessageText">—</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="mobile-only portal-activity" aria-labelledby="activity-title">
+      <h2 id="activity-title">Application activity</h2>
+      <div class="activity-links">
+        <a class="activity-link" href="#documents">
+          <span class="activity-icon"><svg aria-hidden="true"><use href="#portal-icon-documents"/></svg></span>
+          <span class="activity-copy"><strong>Document review</strong><span id="documents-summary">Checking your documents…</span></span>
+          <svg class="activity-arrow" aria-hidden="true"><use href="#portal-icon-arrow"/></svg>
+        </a>
+        <a class="activity-link" href="#exams">
+          <span class="activity-icon"><svg aria-hidden="true"><use href="#portal-icon-exams"/></svg></span>
+          <span class="activity-copy"><strong>Entrance exams</strong><span id="exam-summary">Checking your schedule…</span></span>
+          <svg class="activity-arrow" aria-hidden="true"><use href="#portal-icon-arrow"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- EXAM SCHEDULE (conditionally shown) -->
+    <section class="section-card exam-schedule" id="examScheduleCard" aria-labelledby="exams-title">
+      <div class="section-header">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#c8922a" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <h2 id="exams-title" tabindex="-1">Entrance Exam Schedule</h2>
+        <div class="accent-rule"></div>
+      </div>
+      <div class="mobile-only portal-exam-empty" role="status">
+        <span class="activity-icon"><svg aria-hidden="true"><use href="#portal-icon-exams"/></svg></span>
+        <h3 id="exam-empty-title">Checking your schedule…</h3>
+        <p id="exam-empty-detail"></p>
+      </div>
+      <table class="exam-table" role="table" aria-labelledby="exams-title">
+        <thead role="rowgroup">
+          <tr role="row">
+            <th scope="col" role="columnheader">Curriculum</th>
+            <th scope="col" role="columnheader">Date</th>
+            <th scope="col" role="columnheader">Time</th>
+            <th scope="col" role="columnheader">Venue</th>
+          </tr>
+        </thead>
+        <tbody id="examTableBody" role="rowgroup"></tbody>
+      </table>
+      <div class="good-luck">Prepare well — Good luck on your examinations!</div>
+    </section>
+
+    <div class="footer">Student Enrollment System &mdash; Confidential</div>
+  </main>
+
+  <svg class="portal-icon-definitions" aria-hidden="true" width="0" height="0" style="position:absolute">
+    <defs>
+      <symbol id="portal-icon-overview" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-7v-6h-4v6H3z"/></symbol>
+      <symbol id="portal-icon-documents" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8m-8 4h5"/></symbol>
+      <symbol id="portal-icon-exams" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4m-5 4h18"/></symbol>
+      <symbol id="portal-icon-profile" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1"/></symbol>
+      <symbol id="portal-icon-arrow" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    </defs>
+  </svg>
+
+  <nav class="mobile-only portal-nav" aria-label="Student portal">
+    <a href="#overview" aria-current="page"><svg aria-hidden="true"><use href="#portal-icon-overview"/></svg><span>Overview</span></a>
+    <a href="#documents"><svg aria-hidden="true"><use href="#portal-icon-documents"/></svg><span>Documents</span></a>
+    <a href="#exams"><svg aria-hidden="true"><use href="#portal-icon-exams"/></svg><span>Exams</span></a>
+    <a href="#profile"><svg aria-hidden="true"><use href="#portal-icon-profile"/></svg><span>Profile</span></a>
+  </nav>
+
+<script>
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function formatItems(arr) {
+    return arr.map(s => String(s||'').trim()).filter(Boolean)
+      .map(w => w.replace(/[-_]/g,' ').split(' ').map(x=>x.charAt(0).toUpperCase()+x.slice(1)).join(' '))
+      .join(', ');
+  }
+  function getInitials(first, last) {
+    return ((first||'').charAt(0) + (last||'').charAt(0)).toUpperCase() || '?';
+  }
+
+  const mobilePortal = window.matchMedia('(max-width: 767px)');
+  const portalPage = document.querySelector('.page');
+  const portalNavigation = document.querySelectorAll('.portal-nav a');
+  const portalHeadings = new Map([
+    ['overview', 'name'],
+    ['documents', 'documents-title'],
+    ['exams', 'exams-title'],
+    ['profile', 'profile-title']
+  ]);
+
+  function selectPortalView(moveFocus = false) {
+    const requested = window.location.hash.slice(1);
+    const view = portalHeadings.has(requested) ? requested : 'overview';
+    portalPage.dataset.portalView = view;
+    portalNavigation.forEach(link => {
+      if (link.hash === '#' + view) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+    if (moveFocus && mobilePortal.matches) {
+      document.getElementById(portalHeadings.get(view)).focus({ preventScroll: true });
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function setExamSummary(title, detail) {
+    document.getElementById('exam-summary').textContent = title;
+    document.getElementById('exam-empty-title').textContent = title;
+    document.getElementById('exam-empty-detail').textContent = detail;
+  }
+
+  async function loadProfile() {
+    try {
+      const res = await fetch('../controllers/student_session.php');
+      const j = await res.json();
+      if (!j.success) { window.location.href = '../index.html'; return; }
+      const a = j.applicant;
+
+      // Enrich with per-document statuses
+      try {
+        if (a && a.id) {
+          const ga = await fetch('../controllers/get_applicant.php?id=' + encodeURIComponent(a.id));
+          const gj = await ga.json().catch(()=>null);
+          if (gj && gj.success && gj.documents) {
+            const docs = gj.documents;
+            a.report_card_status = docs.report_card.status || a.report_card_status || 'pending';
+            a.report_card_remark = docs.report_card.remark || a.report_card_remark || '';
+            a.moral_status = docs.good_moral.status || a.moral_status || 'pending';
+            a.moral_remark = docs.good_moral.remark || a.moral_remark || '';
+            a.health_status = docs.health_declaration.status || a.health_status || 'pending';
+            a.health_remark = docs.health_declaration.remark || a.health_remark || '';
+            if (gj.applicant && typeof gj.applicant === 'object') Object.assign(a, gj.applicant);
+          }
+        }
+      } catch (e) { console.warn('enrichment failed', e); }
+
+      // — Profile hero —
+      const firstName = a.first_name || '';
+      const lastName  = a.last_name  || '';
+      const fullName  = (firstName + (lastName ? ' ' + lastName : '')).trim() || '—';
+      document.getElementById('avatarInitials').textContent = getInitials(firstName, lastName);
+      document.getElementById('name').textContent = fullName;
+      document.getElementById('lrn').textContent  = 'LRN: ' + (a.lrn || '—');
+
+      // — Enrollment status badge (hero) —
+      const isEnrolled = (a.status === 'enrolled');
+      const statusEl   = document.getElementById('statusBadge');
+      statusEl.className = 'status-pill ' + (isEnrolled ? 'enrolled' : 'not-enrolled');
+      document.getElementById('statusText').textContent = isEnrolled ? 'Enrolled' : 'Not Enrolled';
+
+      // — Info table —
+      document.getElementById('infoName').textContent = fullName;
+      document.getElementById('email').textContent    = a.email   || '—';
+      document.getElementById('section').textContent  = a.section_text || 'TBD';
+
+      let curricula = [];
+      // If the applicant is enrolled, prefer the authoritative `applicants.curriculum` field
+      if (a.status === 'enrolled' && a.curriculum) {
+        curricula = [a.curriculum];
+      } else if (Array.isArray(a.curricula) && a.curricula.length) {
+        curricula = a.curricula;
+      } else if (a.section_text) {
+        try { const p = JSON.parse(a.section_text); if (Array.isArray(p)) curricula = p; }
+        catch(e) { curricula = a.section_text.split(/[,|;]+/).map(s=>s.trim()).filter(Boolean); }
+      } else if (a.curriculum) {
+        // fallback to curriculum when not enrolled (still available)
+        curricula = [a.curriculum];
+      }
+      document.getElementById('curriculumList').textContent = curricula.length ? formatItems(curricula) : '—';
+      document.getElementById('infoStatus').innerHTML = `<span class="doc-badge ${isEnrolled ? 'approved' : 'pending'}">${isEnrolled ? 'Enrolled' : 'Not Enrolled'}</span>`;
+
+      // — Documents table —
+      const docKeys = [
+        { k: 'report_card_status', r: 'report_card_remark', label: 'Report Card' },
+        { k: 'moral_status',       r: 'moral_remark',       label: 'Certificate of Good Moral Character' },
+        { k: 'health_status',      r: 'health_remark',      label: 'Health Clearance / Declaration' }
+      ];
+      const tbody = document.getElementById('documentsTableBody');
+      let approvedCount = 0;
+      const rows = docKeys.map(d => {
+        const st  = a[d.k] ? String(a[d.k]).trim().toLowerCase() : 'pending';
+        const rem = a[d.r] ? String(a[d.r]).trim() : '';
+        const statusClass = ['approved', 'pending', 'rejected'].includes(st) ? st : 'pending';
+        const cap = st.charAt(0).toUpperCase() + st.slice(1) || 'Pending';
+        if (st === 'approved') approvedCount++;
+        const remarkHtml = rem
+          ? `<span class="remark-text ${st === 'rejected' ? 'rejected' : ''}">${escapeHtml(rem)}</span>`
+          : '<span style="color:#94a3b8;font-size:.8rem;">—</span>';
+        return `<tr role="row">
+          <td class="doc-name" role="cell">${d.label}</td>
+          <td class="doc-status" role="cell"><span class="doc-badge ${statusClass}">${escapeHtml(cap)}</span></td>
+          <td class="doc-remark${rem ? ' has-remark' : ''}" role="cell">${remarkHtml}</td>
+        </tr>`;
+      });
+      tbody.innerHTML = rows.join('');
+      document.getElementById('documents-summary').textContent = `${approvedCount} of ${docKeys.length} approved`;
+
+      // — Admin message —
+      const custom = a.exam_remark || a.remark || a.remarks || a.note || a.document_message || '';
+      if (custom && String(custom).trim()) {
+        document.getElementById('adminMessageCard').style.display = '';
+        document.getElementById('adminMessageText').textContent = String(custom).trim();
+      }
+
+      // — Exam schedule (not enrolled only) —
+      if (isEnrolled) {
+        setExamSummary('Enrollment complete', 'Your enrollment is complete. Check your profile for your curriculum and section.');
+      } else {
+        const curriculaToQuery = [...curricula];
+        if (!curriculaToQuery.length && a.section_text) {
+          try { const p = JSON.parse(a.section_text); if (Array.isArray(p)) curriculaToQuery.push(...p); }
+          catch(e) { curriculaToQuery.push(...a.section_text.split(/[,|;]+/).map(s=>s.trim()).filter(Boolean)); }
+        }
+        await showSchedules(curriculaToQuery);
+      }
+
+    } catch(err) {
+      console.error(err);
+      window.location.href = '../index.html';
+    }
+  }
+
+  async function showSchedules(curricula) {
+    try {
+      const fetches = curricula.map(c =>
+        fetch('../controllers/exam_schedule.php?curriculum=' + encodeURIComponent(c))
+          .then(r => r.json()).catch(() => ({ success: false }))
+      );
+      const results = await Promise.all(fetches);
+      let all = [];
+      results.forEach((j, idx) => {
+        if (!j || !j.success) return;
+        for (const s of (j.schedules || [])) {
+          if (!s.exam_date || s.exam_date === '0000-00-00') continue;
+          all.push({ ...s, curriculum: s.curriculum || curricula[idx] });
+        }
+      });
+      all = all.map(s => ({ ...s, _d: new Date(s.exam_date) }))
+              .filter(s => !isNaN(s._d.getTime()))
+              .sort((a, b) => a._d - b._d);
+
+      if (!all.length) {
+        if (!curricula.length || results.some(result => result && result.success)) {
+          setExamSummary('No schedule posted', 'Exam dates will appear here once the school posts a schedule for your application.');
+        } else {
+          setExamSummary('Schedule unavailable', 'Reload the portal to check for exam dates again.');
+        }
+        return;
+      }
+
+      const card  = document.getElementById('examScheduleCard');
+      const tbody = document.getElementById('examTableBody');
+
+      const rows = all.map(s => {
+        const date  = s._d.toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+        const time  = s.exam_time || '—';
+        const venue = s.venue || '—';
+        const currLabel = (s.curriculum||'').replace(/[-_]/g,' ').split(' ')
+                          .map(w => w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+        return `<tr role="row">
+          <td class="curriculum-name" role="cell">${escapeHtml(currLabel)}</td>
+          <td class="exam-date" role="cell"><span class="mobile-only exam-field-label" aria-hidden="true">Date</span>${escapeHtml(date)}</td>
+          <td class="exam-time" role="cell"><span class="mobile-only exam-field-label" aria-hidden="true">Time</span>${escapeHtml(time)}</td>
+          <td class="exam-venue" role="cell"><span class="mobile-only exam-field-label" aria-hidden="true">Venue</span>${escapeHtml(venue)}</td>
+        </tr>`;
+      });
+      tbody.innerHTML = rows.join('');
+      card.classList.add('has-exams');
+      document.getElementById('exam-summary').textContent = all.length === 1 ? '1 exam scheduled' : `${all.length} exams scheduled`;
+    } catch(e) {
+      console.error('exam fetch failed', e);
+      setExamSummary('Schedule unavailable', 'Reload the portal to check for exam dates again.');
+    }
+  }
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    window.location.href = '../controllers/student_logout.php';
+  });
+
+  selectPortalView();
+  window.addEventListener('hashchange', () => selectPortalView(true));
+  loadProfile();
+</script>
+</body>
+</html>

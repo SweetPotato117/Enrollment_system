@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Exam Schedule</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="workspace.css" />
+  <script src="workspace.js" defer></script>
+</head>
+<body class="workspace">
+  <div data-workspace-shell></div>
+
+  <div class="tab-content tab-content--active">
+    <main id="workspace-main" class="page workspace-page" tabindex="-1">
+      <div class="workspace-split">
+        <section class="card" aria-labelledby="newExamHeading">
+          <header class="card__header"><h2 id="newExamHeading">Add an exam</h2></header>
+          <form id="newExamForm">
+            <fieldset class="exam-curriculum" id="curriculumRadios">
+              <legend>Curriculum</legend>
+              <label><input type="radio" name="curriculum" value="SPICT" required> SPICT</label>
+              <label><input type="radio" name="curriculum" value="STE"> STE</label>
+              <label><input type="radio" name="curriculum" value="SPJ"> SPJ</label>
+              <label><input type="radio" name="curriculum" value="SPA"> SPA</label>
+              <label><input type="radio" name="curriculum" value="ICT"> ICT</label>
+            </fieldset>
+            <div class="field"><label for="examDate">Date</label><input type="date" name="exam_date" id="examDate" required /></div>
+            <div class="field"><label for="examTime">Time</label><input type="time" name="exam_time" id="examTime" required /></div>
+            <div class="field"><label for="examVenue">Venue (optional)</label><input type="text" name="venue" id="examVenue" placeholder="Enter venue" /></div>
+            <button id="saveExamBtn" class="btn btn--primary" type="submit">Save schedule</button>
+            <p id="examScheduleError" class="form-feedback" role="status" hidden></p>
+          </form>
+        </section>
+        <section class="card records-panel" aria-labelledby="examListHeading">
+          <header class="records-panel-heading">
+            <h2 id="examListHeading">Scheduled exams</h2>
+            <span class="records-counter" id="examCount" aria-live="polite"></span>
+          </header>
+          <div class="records-toolbar exam-toolbar">
+            <div class="field">
+              <label for="examFilterCurriculum">Filter by curriculum</label>
+              <select id="examFilterCurriculum"><option value="">All curricula</option></select>
+            </div>
+            <div class="field">
+              <label for="examFilterDate">Filter by date</label>
+              <input type="date" id="examFilterDate" />
+            </div>
+            <button class="btn btn--secondary" id="clearExamFilters" type="button">Clear filters</button>
+          </div>
+          <div class="records-table-region record-cards" id="examRecords" hidden>
+            <table class="applicants-table" aria-labelledby="examListHeading" role="table">
+              <thead role="rowgroup"><tr role="row">
+                <th scope="col" role="columnheader">Curriculum</th><th scope="col" role="columnheader">Date</th><th scope="col" role="columnheader">Time</th>
+                <th scope="col" role="columnheader">Venue</th><th scope="col" role="columnheader">Actions</th>
+              </tr></thead>
+              <tbody id="examTableBody" role="rowgroup"></tbody>
+            </table>
+          </div>
+          <p class="records-empty" id="examStatus" role="status">Loading exam schedules…</p>
+        </section>
+      </div>
+    </main>
+  </div>
+  <dialog class="workspace-dialog" id="examEditDialog" aria-labelledby="examEditHeading">
+    <form id="examEditForm">
+      <div class="modal__header">
+        <h2 id="examEditHeading">Edit exam schedule</h2>
+        <button type="button" class="modal__close" id="closeExamEdit" aria-label="Close edit form">×</button>
+      </div>
+      <div class="modal__body">
+        <input type="hidden" name="id" />
+        <div class="field"><label for="editExamDate">Date</label><input type="date" name="exam_date" id="editExamDate" required /></div>
+        <div class="field"><label for="editExamTime">Time</label><input type="time" name="exam_time" id="editExamTime" step="1" required /></div>
+        <div class="field"><label for="editExamVenue">Venue (optional)</label><input type="text" name="venue" id="editExamVenue" /></div>
+        <p id="examEditError" class="form-feedback" role="status" hidden></p>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--secondary" id="cancelExamEdit" type="button">Cancel</button>
+        <button class="btn btn--primary" type="submit">Save changes</button>
+      </div>
+    </form>
+  </dialog>
+  <script src="records.js"></script>
+  <script src="exam-schedules.js"></script>
+</body>
+</html>

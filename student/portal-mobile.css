@@ -1,0 +1,473 @@
+body {
+  background: var(--gray-100);
+  line-height: 1.45;
+}
+
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: .7rem;
+  padding: calc(.7rem + env(safe-area-inset-top)) 1rem .7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
+
+.school-mark {
+  display: block;
+  grid-row: span 2;
+  object-fit: contain;
+}
+
+.top-bar .school-name {
+  color: var(--white);
+  font-size: .97rem;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.top-bar .portal-label {
+  color: #e7c994;
+  font-size: .68rem;
+  letter-spacing: .06em;
+}
+
+.page {
+  gap: 1rem;
+  min-height: calc(100svh - 4rem);
+  margin: 0 auto;
+  padding: 1rem 1rem calc(6rem + env(safe-area-inset-bottom));
+}
+
+.page:not([data-portal-view="overview"]) :is(.portal-activity, #adminMessageCard),
+.page:not([data-portal-view="overview"]):not([data-portal-view="profile"]) .profile-card,
+.page:not([data-portal-view="profile"]) #portal-profile,
+.page:not([data-portal-view="documents"]) #portal-documents,
+.page:not([data-portal-view="exams"]) #examScheduleCard {
+  display: none;
+}
+
+.profile-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: .9rem;
+  margin: -1rem -1rem 0;
+  padding: 1.35rem 1rem 1rem;
+  border-radius: 0 0 1.35rem 1.35rem;
+  background: linear-gradient(105deg, #0f2044 15%, rgba(15, 32, 68, .9) 57%, rgba(15, 32, 68, .74) 100%),
+    url('../assets/bghs.jpg') center 41% / cover;
+  box-shadow: 0 5px 16px rgba(15, 32, 68, .12);
+}
+
+.profile-card::before,
+.profile-card::after {
+  content: none;
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.15rem;
+  color: #fae1a9;
+  border-color: #e3b765;
+  background: rgba(200, 146, 42, .24);
+}
+
+.profile-info h1 {
+  margin-bottom: .15rem;
+  font-size: clamp(1.3rem, 5.7vw, 1.85rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+
+.profile-info .lrn-tag {
+  color: #dbe4f1;
+  font-size: .73rem;
+  letter-spacing: .06em;
+  overflow-wrap: anywhere;
+}
+
+.profile-actions {
+  grid-column: 1 / -1;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: .75rem;
+  border-top: 1px solid rgba(255, 255, 255, .2);
+}
+
+.status-pill {
+  padding: .43rem .7rem;
+  font-size: .73rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.btn-logout {
+  min-height: 44px;
+  padding: .45rem .75rem;
+  color: var(--white);
+  font-size: .8rem;
+  letter-spacing: 0;
+}
+
+.portal-activity {
+  display: block;
+}
+
+.portal-activity h2 {
+  margin-bottom: .65rem;
+  color: var(--navy);
+  font: 700 1.2rem / 1.3 'Playfair Display', serif;
+}
+
+.activity-links {
+  display: grid;
+  gap: .65rem;
+}
+
+.activity-link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .72rem;
+  min-height: 72px;
+  padding: .65rem .8rem;
+  border: 1px solid #dde4ee;
+  border-radius: .85rem;
+  background: var(--white);
+  color: var(--navy);
+  box-shadow: 0 2px 6px rgba(15, 32, 68, .04);
+  text-decoration: none;
+}
+
+.activity-link:active {
+  background: var(--gray-50);
+}
+
+.activity-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: .65rem;
+  color: var(--navy-mid);
+  background: #edf2fa;
+}
+
+.activity-link:nth-child(2) .activity-icon {
+  color: #704b11;
+  background: var(--accent-light);
+}
+
+.activity-icon svg,
+.activity-arrow,
+.portal-nav svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
+.activity-copy {
+  display: grid;
+  gap: .13rem;
+}
+
+.activity-copy strong {
+  font-size: .94rem;
+}
+
+.activity-copy span,
+.activity-arrow {
+  color: var(--gray-600);
+  font-size: .8rem;
+}
+
+.section-card {
+  border: 1px solid #dde4ee;
+  border-radius: .85rem;
+  box-shadow: 0 2px 9px rgba(15, 32, 68, .05);
+}
+
+.section-header {
+  gap: .55rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--gray-200);
+  background: var(--white);
+}
+
+.section-header .icon {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  opacity: 1;
+  stroke: #92671d;
+}
+
+.section-header h2 {
+  color: var(--navy);
+  font-size: 1.13rem;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.section-header .accent-rule {
+  display: none;
+}
+
+.info-table,
+.info-table tbody,
+.docs-table,
+.docs-table tbody,
+.exam-table,
+.exam-table tbody {
+  display: block;
+}
+
+.info-table tbody {
+  padding: 0 1rem;
+}
+
+.info-table tr {
+  display: grid;
+  gap: .2rem;
+  padding: .7rem 0;
+}
+
+.info-table th,
+.info-table td {
+  padding: 0;
+  overflow-wrap: anywhere;
+}
+
+.info-table .td-label {
+  width: auto;
+  font-size: .76rem;
+  white-space: normal;
+}
+
+.info-table tr:nth-child(even) > * {
+  background: transparent;
+}
+
+.docs-table thead,
+.exam-table thead,
+.doc-remark:not(.has-remark) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.docs-table tbody,
+.exam-table tbody {
+  display: grid;
+  gap: .65rem;
+  padding: .8rem;
+  background: var(--gray-50);
+}
+
+.docs-table tbody tr,
+.exam-table tbody tr {
+  display: grid;
+  gap: .55rem;
+  padding: .8rem;
+  border: 1px solid var(--gray-200);
+  border-radius: .7rem;
+  background: var(--white);
+}
+
+.docs-table tbody tr:last-child,
+.exam-table tbody tr:last-child {
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.docs-table tbody tr:hover td {
+  background: none;
+}
+
+.docs-table tr {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+}
+
+.docs-table td,
+.exam-table td {
+  padding: 0;
+  overflow-wrap: anywhere;
+}
+
+.docs-table .doc-name,
+.exam-table .curriculum-name {
+  color: var(--navy);
+  font-size: .96rem;
+  line-height: 1.3;
+}
+
+.doc-badge {
+  padding: .33rem .55rem;
+  font-size: .74rem;
+  line-height: 1.15;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.doc-remark,
+.docs-table .empty-state {
+  grid-column: 1 / -1;
+}
+
+.docs-table .empty-state {
+  padding: .8rem;
+  color: var(--gray-600);
+}
+
+.doc-remark.has-remark {
+  padding-top: .5rem;
+  border-top: 1px solid var(--gray-200);
+}
+
+.remark-text {
+  color: var(--gray-600);
+  white-space: pre-line;
+}
+
+.admin-message {
+  margin: 0;
+  padding: .85rem 1rem;
+  border: 0;
+  border-radius: 0;
+  background: #f8faff;
+}
+
+.admin-message .msg-icon,
+.admin-message .msg-title {
+  display: none;
+}
+
+.admin-message .msg-text {
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+.page[data-portal-view="exams"] .exam-schedule {
+  display: block;
+}
+
+.exam-schedule:not(.has-exams) :is(.exam-table, .good-luck) {
+  display: none;
+}
+
+.exam-schedule:not(.has-exams) .portal-exam-empty {
+  display: grid;
+  justify-items: center;
+  gap: .45rem;
+  padding: 1.5rem 1rem;
+  color: var(--navy);
+  text-align: center;
+}
+
+.portal-exam-empty h3 {
+  font-size: 1rem;
+}
+
+.portal-exam-empty p {
+  max-width: 33ch;
+  color: var(--gray-600);
+  font-size: .87rem;
+}
+
+.portal-exam-empty p:empty {
+  display: none;
+}
+
+.exam-table tbody tr {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: .7rem;
+}
+
+.exam-table :is(.curriculum-name, .exam-venue) {
+  grid-column: 1 / -1;
+}
+
+.exam-table .curriculum-name {
+  padding-bottom: .6rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.exam-field-label {
+  display: block;
+  margin-bottom: .15rem;
+  color: var(--gray-600);
+  font-size: .73rem;
+  font-weight: 600;
+}
+
+.good-luck {
+  padding: .75rem 1rem;
+  color: var(--gray-600);
+  font-size: .78rem;
+  letter-spacing: 0;
+}
+
+.footer {
+  margin-top: auto;
+  color: var(--gray-600);
+  font-size: .64rem;
+  letter-spacing: .05em;
+}
+
+.portal-nav {
+  position: fixed;
+  z-index: 3;
+  inset: auto 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .2rem;
+  padding: .3rem max(.38rem, env(safe-area-inset-right)) calc(.3rem + env(safe-area-inset-bottom)) max(.38rem, env(safe-area-inset-left));
+  border-top: 1px solid var(--gray-200);
+  background: var(--white);
+  box-shadow: 0 -3px 14px rgba(15, 32, 68, .08);
+}
+
+.portal-nav a {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: .2rem;
+  min-height: 52px;
+  border-radius: .65rem;
+  color: var(--gray-600);
+  font-size: .69rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.portal-nav [aria-current="page"] {
+  color: var(--navy);
+  background: #f5ead5;
+  font-weight: 700;
+}
+
+.portal-nav [aria-current="page"] svg {
+  stroke-width: 2.1;
+}
+
+:is(.portal-nav a, .activity-link, .btn-logout):focus-visible {
+  outline: 2px solid #a16d19;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-card, .profile-card {
+    animation: none;
+  }
+}

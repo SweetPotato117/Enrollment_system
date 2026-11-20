@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Application Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="workspace.css" />
+  <script src="workspace.js" defer></script>
+</head>
+<body class="workspace">
+  <div data-workspace-shell></div>
+
+  <!-- Application Content -->
+  <div id="application-tab" class="tab-content tab-content--active">
+    <main id="workspace-main" class="page workspace-page" tabindex="-1">
+      <div class="workspace-form-layout">
+        <details class="workspace-form-index" open>
+          <summary>Form sections</summary>
+          <nav aria-label="Form sections" data-workspace-form-nav></nav>
+        </details>
+        <div class="workspace-form-content">
+
+      <form id="applicationForm" method="post" action="../controllers/application.php" enctype="multipart/form-data">
+      <!-- Application Details -->
+      <section class="card">
+        <header class="card__header">
+          <span class="icon icon--clipboard" aria-hidden="true"></span>
+          <h2>Application Details</h2>
+        </header>
+
+        <div class="subheading">Application Form</div>
+      </section>
+
+      <!-- Personal Information -->
+      <section class="card">
+        <header class="card__header">
+          <span class="icon icon--user" aria-hidden="true"></span>
+          <h2>Personal Information</h2>
+        </header>
+
+          <div class="grid grid-2">
+          <!-- Left column -->
+          <div>
+            <div class="field">
+                <label>First Name</label>
+                <input type="text" name="first_name" />
+              </div>
+              <div class="field">
+                <label>Middle Name</label>
+                <input type="text" name="middle_name" />
+              </div>
+              <div class="field">
+                <label>Last Name</label>
+                <input type="text" name="last_name" />
+              </div>
+            <div class="field">
+              <label>Date of Birth</label>
+              <input type="date" name="birthdate" />
+            </div>
+            <div class="field">
+              <label>Age</label>
+              <input type="number" name="age" min="0" inputmode="numeric" />
+            </div>
+            <div class="field">
+              <label>Birthplace</label>
+              <input type="text" name="birthplace" />
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div>
+            <div class="grid grid-2 compact">
+              <div class="field">
+                <label>Sex</label>
+                <div class="select-wrap">
+                  <select name="sex">
+                    <option selected hidden> </option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label>Citizenship</label>
+                <input type="text" name="citizenship" />
+              </div>
+            </div>
+            <div class="field">
+              <label>Religion</label>
+              <input type="text" name="religion" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Details -->
+      <section class="card">
+        <header class="card__header">
+          <h2>Contact Details</h2>
+        </header>
+
+        <div class="grid grid-2">
+          <div>
+            <div class="group">
+              <div class="label-bar">Current Address</div>
+              <div class="field">
+                <label class="sr-only">Current Address</label>
+              </div>
+
+              <div class="field">
+                <label>House No.</label>
+                <input type="text" name="house_no" />
+              </div>
+
+              <div class="grid grid-2 compact">
+                <div class="field">
+                  <label>Barangay</label>
+                  <input type="text" name="barangay" />
+                </div>
+                <div class="field">
+                  <label>Municipality</label>
+                  <input type="text" name="municipality" />
+                </div>
+              </div>
+
+              <div class="grid grid-2 compact">
+                <div class="field">
+                  <label>Country</label>
+                  <input type="text" name="country" />
+                </div>
+                <div class="field">
+                  <label>Province</label>
+                  <input type="text" name="province" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Zip Code</label>
+                <input type="text" name="zip_code" inputmode="numeric" />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="grid grid-2 compact">
+              <div class="field with-icon">
+                <label>Mobile Number</label>
+                <input type="text" name="mobile" inputmode="tel" style="padding-right: 40px;" />
+              </div>
+              <div class="field">
+                <label>Email Address</label>
+                <input type="email" name="email" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Educational Background -->
+      <section class="card">
+        <header class="card__header">
+          <h2>Educational Background</h2>
+        </header>
+
+        <div class="grid grid-2">
+          <div>
+            <div class="field">
+              <label>Current School Name</label>
+              <input type="text" name="school_name" />
+            </div>
+            <div class="field">
+              <label>School Address</label>
+              <input type="text" name="school_address" />
+            </div>
+          </div>
+
+          <div>
+            <div class="field">
+              <label>Learner Reference Number (LRN)</label>
+              <input id="lrnInput" type="text" name="lrn" inputmode="numeric" placeholder="12-digit number" maxlength="12" pattern="[0-9]{12}" oninput="this.value=this.value.replace(/\D/g,'').slice(0,12)" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Family Background -->
+      <section class="card">
+        <header class="card__header">
+          <h2>Family Background</h2>
+        </header>
+
+        <div class="grid grid-2 side-by-side">
+          <!-- Father's Information -->
+          <details class="pane" open>
+            <summary><span class="icon icon--person" aria-hidden="true"></span> Father</summary>
+            <div class="grid grid-2 compact">
+              <div class="field">
+                <label>First Name</label>
+                <input type="text" name="father_first" />
+              </div>
+              <div class="field">
+                <label>Last Name</label>
+                <input type="text" name="father_last" />
+              </div>
+            </div>
+            <div class="field with-icon">
+              <label>Contact Number</label>
+              <input type="text" name="father_contact" inputmode="tel" style="padding-right: 40px;" />
+            </div>
+          </details>
+
+          <!-- Mother's Maiden Name -->
+          <details class="pane" open>
+            <summary><span class="icon icon--person" aria-hidden="true"></span> Mother’s Maiden Name</summary>
+            <div class="grid grid-2 compact">
+              <div class="field">
+                <label>First Name</label>
+                <input type="text" name="mother_first" placeholder="Natalio" />
+              </div>
+              <div class="field">
+                <label>Last Name</label>
+                <input type="text" name="mother_last" placeholder="Jennifer" />
+              </div>
+            </div>
+            <div class="field with-icon">
+              <label>Contact Number</label>
+              <input type="text" name="mother_contact" inputmode="tel" style="padding-right: 40px;" />
+            </div>
+          </details>
+        </div>
+
+        <!-- Guardian (if applicable) -->
+        <details class="pane">
+          <summary><span class="icon icon--shield" aria-hidden="true"></span> Guardian (if applicable)</summary>
+          <div class="field">
+            <label>Name</label>
+            <input type="text" name="guardian_name" />
+          </div>
+          <div class="field">
+            <label>Relationship</label>
+            <input type="text" name="guardian_relation" />
+          </div>
+          <div class="field with-icon">
+            <label>Contact Number</label>
+            <input type="text" name="guardian_contact" inputmode="tel" style="padding-right: 40px;" />
+          </div>
+        </details>
+      </section>
+
+      <!-- Section Selection -->
+      <section class="card">
+        <header class="card__header">
+          <h2>Curriculum</h2>
+        </header>
+
+        <div class="inner-panel">
+          <div class="question">
+            <p>Choose a track:</p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:12px;">
+              <!-- Removed 'Regular' and 'First Section' options per request -->
+
+              <label class="checkbox">
+                <input type="checkbox" name="sections[]" value="spict" />
+                <span class="checkbox__box"></span>
+                <span class="checkbox__label">SPICT</span>
+              </label>
+
+              <label class="checkbox">
+                <input type="checkbox" name="sections[]" value="ste" />
+                <span class="checkbox__box"></span>
+                <span class="checkbox__label">STE</span>
+              </label>
+
+              <label class="checkbox">
+                <input type="checkbox" name="sections[]" value="spj" />
+                <span class="checkbox__box"></span>
+                <span class="checkbox__label">SPJ</span>
+              </label>
+
+              <label class="checkbox">
+                <input type="checkbox" name="sections[]" value="spa" />
+                <span class="checkbox__box"></span>
+                <span class="checkbox__label">SPA</span>
+              </label>
+
+                            <label class="checkbox">
+                <input type="checkbox" name="sections[]" value="ict" />
+                <span class="checkbox__box"></span>
+                <span class="checkbox__label">ICT</span>
+              </label>
+            </div>
+            <div id="sectionSchedules" style="margin-top:14px;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Password / Account Security -->
+      <section class="card">
+        <header class="card__header">
+          <h2>Account Security</h2>
+        </header>
+
+        <div class="inner-panel">
+          <div class="question">
+            <p>Please create a password. This will be your password for your account later</p>
+            <div class="grid grid-2" style="margin-top:12px;">
+              <div class="field">
+                <label>Create Password</label>
+                <input type="password" id="password" name="password" minlength="8" placeholder="At least 8 characters" aria-label="Create password" />
+              </div>
+              <div class="field">
+                <label>Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" minlength="8" placeholder="Confirm password" aria-label="Confirm password" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Required Documents -->
+      <section class="card">
+        <header class="card__header">
+          <h2>Required Documents</h2>
+        </header>
+
+        <div class="inner-panel">
+          <div class="question">
+            <p>Please upload the required documents (PDF or image):</p>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+              <label class="field">
+                <span class="checkbox__label">Copy of Report Card</span>
+                <input type="file" name="reportCard" accept=".pdf,image/*" aria-label="Upload copy of report card" />
+              </label>
+
+              <label class="field">
+                <span class="checkbox__label">Good Moral Character Certificate (signed by School Head)</span>
+                <input type="file" name="moralCharacter" accept=".pdf,image/*" aria-label="Upload good moral character certificate" />
+              </label>
+
+              <label class="field">
+                <span class="checkbox__label">Health Declaration Form</span>
+                <input type="file" name="healthDeclaration" accept=".pdf,image/*" aria-label="Upload health declaration form" />
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Indigenous & 4P’s Information -->
+      <section class="card">
+        <header class="card__header">
+          <h2>Indigenous & 4P’s Information</h2>
+        </header>
+
+        <div class="inner-panel">
+          <!-- Block 1 -->
+          <div class="question">
+            <p>&gt; Belong to any Indigenous Peoples (IP) Community/Indigenous Cultural Community?</p>
+            <div class="segmented">
+              <label class="segmented__option">
+                <input type="radio" name="ip" value="yes" />
+                <span class="segmented__dot"></span>
+                <span class="segmented__label">Yes</span>
+              </label>
+              <label class="segmented__option">
+                <input type="radio" name="ip" value="no" checked />
+                <span class="segmented__dot"></span>
+                <span class="segmented__label">No</span>
+              </label>
+              <span class="helper">if Yes, please specify</span>
+            </div>
+            <div class="field mt-12">
+              <input type="text" name="indigenous_specify" aria-label="IP Specify" />
+            </div>
+          </div>
+
+          <!-- Block 2 -->
+          <div class="question">
+            <p>&gt; Is your family a beneficiary of 4Ps?</p>
+            <div class="segmented">
+              <label class="segmented__option">
+                <input type="radio" name="fourps" value="yes" />
+                <span class="segmented__dot"></span>
+                <span class="segmented__label">Yes</span>
+              </label>
+              <label class="segmented__option">
+                <input type="radio" name="fourps" value="no" checked />
+                <span class="segmented__dot"></span>
+                <span class="segmented__label">No</span>
+              </label>
+              <span class="helper">if Yes, please write the 4Ps Household ID Number</span>
+            </div>
+            <div class="field mt-12">
+              <input type="text" name="fourps_household_id" aria-label="4Ps Household ID Number" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Certification + Submit -->
+      <section class="card">
+        <header class="card__header"><h2>Confirm application</h2></header>
+        <div class="submit-area">
+          <label class="checkbox">
+            <input type="checkbox" id="certify" />
+            <span class="checkbox__box"></span>
+            <span class="checkbox__label">I certify that the information provided above is true and correct.</span>
+          </label>
+
+          <button id="submitBtn" class="btn btn--primary" type="submit" disabled>
+            Submit Application
+          </button>
+        </div>
+      </section>
+      </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    (function(){
+      const form = document.getElementById('applicationForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const certify = document.getElementById('certify');
+      const lrn = document.getElementById('lrnInput');
+      const files = [form.querySelector('input[name="reportCard"]'), form.querySelector('input[name="moralCharacter"]'), form.querySelector('input[name="healthDeclaration"]')];
+
+      function hasAllFiles(){
+        return files.every(f => f && f.files && f.files.length > 0);
+      }
+      function validLrn(){
+        return lrn && lrn.value && lrn.value.trim().length === 12;
+      }
+      function update(){
+        const ok = hasAllFiles() && validLrn() && (!certify || certify.checked);
+        if (submitBtn) submitBtn.disabled = !ok;
+      }
+      if (lrn) lrn.addEventListener('input', ()=>{ if (lrn.value.length>12) lrn.value = lrn.value.slice(0,12); update(); });
+      files.forEach(f => { if (f) f.addEventListener('change', update); });
+      if (certify) certify.addEventListener('change', update);
+      if (form) form.addEventListener('submit', function(e){ if (!hasAllFiles() || !validLrn()){ e.preventDefault(); alert('Please provide a 12-digit LRN and upload all required documents before submitting.'); } });
+      // initial state
+      update();
+    })();
+  </script>
+</body>
+</html>

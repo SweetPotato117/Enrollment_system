@@ -1,0 +1,170 @@
+.section-directory-heading {
+  flex-wrap: wrap;
+}
+
+.workspace .section-command,
+.workspace .section-entry-footer .btn,
+.workspace .section-inline-form .btn {
+  min-height: 44px;
+  margin: 0;
+}
+
+.section-directory-toolbar {
+  grid-template-columns: minmax(0, 2fr) minmax(9rem, 1fr);
+  max-width: 54rem;
+}
+
+.section-directory {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: clamp(12px, 2vw, 20px);
+  border-top: 1px solid var(--border);
+  background: var(--panel);
+  list-style: none;
+}
+
+.section-entry {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #fff;
+  overflow-wrap: anywhere;
+}
+
+.section-entry-meta,
+.section-entry-footer,
+.section-roster-heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-entry-meta,
+.section-entry-footer,
+.section-entry-name p,
+.section-storage-note,
+.section-optional,
+.section-roster-empty {
+  color: var(--muted);
+  font-size: .84rem;
+}
+
+.workspace .section-entry-curriculum {
+  border-color: #c5e5d0;
+  background: #e3f3e9;
+  color: var(--green-600);
+}
+
+.section-entry-name h3,
+.section-roster-heading h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.section-entry-name p {
+  margin: 4px 0 0;
+}
+
+.section-entry-footer {
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.section-storage-note {
+  margin: 0;
+}
+
+.section-dialog[open],
+.section-dialog-form {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.section-dialog .modal__header,
+.section-dialog .modal__footer {
+  flex-shrink: 0;
+}
+
+.section-dialog .modal__header > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.section-dialog .modal__close {
+  flex: none;
+}
+
+.section-dialog .modal__header p {
+  margin: 3px 0 0;
+}
+
+.section-roster-dialog {
+  width: min(560px, calc(100% - 24px));
+}
+
+.section-inline-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 8px;
+}
+
+.section-inline-form .field {
+  margin: 0;
+}
+
+.section-roster-heading {
+  margin: 18px 0 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.section-roster,
+.section-roster-empty {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.section-roster li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+
+.section-form-feedback,
+.section-form-error {
+  margin: 12px 0 0;
+  color: var(--green-600);
+  font-size: .86rem;
+}
+
+.section-form-error {
+  color: #9b1c1c;
+}
+
+@media (max-width: 560px) {
+  .section-directory-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 309px) {
+  .section-inline-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .section-inline-form .btn {
+    justify-self: start;
+  }
+}

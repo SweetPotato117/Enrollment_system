@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Students</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="workspace.css" />
+  <script src="workspace.js" defer></script>
+</head>
+<body class="workspace">
+  <div data-workspace-shell></div>
+
+  <!-- Students Content -->
+  <div class="tab-content tab-content--active">
+    <main id="workspace-main" class="page workspace-page" tabindex="-1">
+      <section class="card records-panel" aria-labelledby="studentsHeading">
+        <header class="records-panel-heading">
+          <h2 id="studentsHeading">Student register</h2>
+          <span id="studentCount" class="records-counter" aria-live="polite"></span>
+        </header>
+        <div class="records-toolbar student-toolbar">
+          <div class="field record-search">
+            <label for="studentSearchInput">Search by name or LRN</label>
+            <input type="search" id="studentSearchInput" placeholder="Enter a name or LRN" />
+          </div>
+          <div class="field">
+            <label for="gradeFilter">Grade</label>
+            <select id="gradeFilter"><option value="">All grades</option></select>
+          </div>
+          <div class="field">
+            <label for="sectionFilter">Curriculum</label>
+            <select id="sectionFilter"><option value="">All curricula</option></select>
+          </div>
+          <div class="field">
+            <label for="studentStatus">Status</label>
+            <select id="studentStatus">
+              <option value="">All statuses</option><option value="cleared">Passed entrance exam</option><option value="enrolled">Enrolled</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="studentSort">Sort by</label>
+            <select id="studentSort">
+              <option value="">Newest first</option>
+              <option value="name asc">Name A–Z</option><option value="name desc">Name Z–A</option>
+              <option value="curriculum asc">Curriculum</option>
+            </select>
+          </div>
+        </div>
+        <div class="records-table-region record-cards" id="studentRecords" hidden>
+          <table class="applicants-table" aria-labelledby="studentsHeading" role="table">
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader">Name</th>
+                <th scope="col" role="columnheader">Curriculum</th>
+                <th scope="col" role="columnheader">LRN</th>
+                <th scope="col" role="columnheader">Status</th>
+                <th scope="col" role="columnheader">Action</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTableBody" role="rowgroup"></tbody>
+          </table>
+        </div>
+        <p class="records-empty" id="studentMessage" role="status">Loading student records…</p>
+      </section>
+    </main>
+  </div>
+  <script src="records.js"></script>
+  <script src="students.js"></script>
+</body>
+</html>

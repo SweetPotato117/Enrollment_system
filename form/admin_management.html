@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Administrator accounts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="workspace.css" />
+  <link rel="stylesheet" href="staff.css" />
+  <script src="workspace.js" defer></script>
+</head>
+<body class="workspace">
+  <div data-workspace-shell></div>
+
+  <div class="tab-content tab-content--active">
+    <main id="workspace-main" class="page workspace-page" tabindex="-1">
+      <div class="workspace-split staff-layout">
+        <section class="card" aria-labelledby="newAdminTitle">
+          <header class="card__header">
+            <h2 id="newAdminTitle">Add administrator</h2>
+          </header>
+          <form id="addAdminForm" class="staff-form" method="post" autocomplete="off">
+            <div class="field">
+              <label for="adminName">Full name</label>
+              <input type="text" id="adminName" name="name" required />
+            </div>
+            <div class="field">
+              <label for="adminEmail">Email address</label>
+              <input type="email" id="adminEmail" name="email" required />
+            </div>
+            <div class="field">
+              <label for="adminPassword">Initial password</label>
+              <input type="password" id="adminPassword" name="password" autocomplete="new-password" required />
+            </div>
+            <p class="staff-feedback" id="addAdminFeedback" role="status"></p>
+            <button type="submit" id="addAdminBtn" class="btn btn--primary">Add administrator</button>
+          </form>
+        </section>
+
+        <section class="card records-panel staff-directory" aria-labelledby="adminDirectoryTitle">
+          <header class="records-panel-heading">
+            <h2 id="adminDirectoryTitle">Account directory</h2>
+            <span class="records-counter" id="adminDirectoryCount" role="status"></span>
+          </header>
+          <div class="staff-directory-search">
+            <div class="field">
+              <label for="adminSearch">Find an administrator</label>
+              <input type="search" id="adminSearch" placeholder="Search name or email" />
+            </div>
+          </div>
+          <div class="records-table-region record-cards" id="adminTableRegion" hidden>
+            <table class="applicants-table" aria-labelledby="adminDirectoryTitle" role="table">
+              <thead>
+                <tr>
+                  <th scope="col" aria-sort="ascending">Name</th>
+                  <th scope="col">Email address</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody"></tbody>
+            </table>
+          </div>
+          <p class="records-empty" id="adminDirectoryState" role="status">Loading accounts…</p>
+        </section>
+      </div>
+
+      <dialog class="workspace-dialog staff-delete-dialog" id="deleteAdminDialog" aria-labelledby="deleteAdminTitle" aria-describedby="deleteAdminMessage">
+        <form id="deleteAdminForm">
+          <div class="modal__header">
+            <h2 id="deleteAdminTitle">Remove administrator?</h2>
+          </div>
+          <div class="modal__body">
+            <p id="deleteAdminMessage"></p>
+            <p class="staff-feedback" id="deleteAdminFeedback" role="status"></p>
+          </div>
+          <div class="modal__footer">
+            <button type="button" class="btn btn--secondary" id="cancelDeleteAdmin" autofocus>Cancel</button>
+            <button type="submit" class="btn btn--danger" id="confirmDeleteAdmin">Remove account</button>
+          </div>
+        </form>
+      </dialog>
+    </main>
+  </div>
+
+  <script>
+    const addForm = document.getElementById('addAdminForm');
+    const addButton = document.getElementById('addAdminBtn');
+    const addFeedback = document.getElementById('addAdminFeedback');
+    const search = document.getElementById('adminSearch');
+    const directoryCount = document.getElementById('adminDirectoryCount');
+    const directoryState = document.getElementById('adminDirectoryState');
+    const tableRegion = document.getElementById('adminTableRegion');
+    const tableBody = document.getElementById('adminTableBody');
+    const deleteDialog = document.getElementById('deleteAdminDialog');
+    const deleteForm = document.getElementById('deleteAdminForm');
+    const deleteMessage = document.getElementById('deleteAdminMessage');
+    const deleteFeedback = document.getElementById('deleteAdminFeedback');
+    const cancelDelete = document.getElementById('cancelDeleteAdmin');
+    const confirmDelete = document.getElementById('confirmDeleteAdmin');
+    let accounts = null;
+    let selectedAccount = null;
+    let directoryRequest = 0;
+
+    async function requestAccounts(action, formData) {
+      const options = formData ? { method: 'POST', body: formData } : undefined;
+      const response = await fetch('../controllers/admin_management.php?action=' + action, options);
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.error || 'Request failed');
+      return result.data;
+    }
+
+    function renderDirectory() {
+      if (!accounts) return;
+
+      const query = search.value.trim().toLowerCase();
+      const matches = accounts.filter(account =>
+        String(account.name || '').toLowerCase().includes(query) ||
+        String(account.email || '').toLowerCase().includes(query)
+      );
+      directoryCount.textContent = query
+        ? `${matches.length} of ${accounts.length}`
+        : `${accounts.length} ${accounts.length === 1 ? 'account' : 'accounts'}`;
+      directoryState.textContent = query ? 'No accounts match your search.' : 'No administrator accounts found.';
+      directoryState.hidden = matches.length > 0;
+      tableRegion.hidden = matches.length === 0;
+
+      const rows = matches.map(account => {
+        const row = document.createElement('tr');
+        row.insertCell().textContent = account.name;
+        row.insertCell().textContent = account.email;
+
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'btn btn--secondary';
+        remove.textContent = 'Remove';
+        remove.setAttribute('aria-label', 'Remove ' + (account.name || account.email));
+        remove.addEventListener('click', () => {
+          selectedAccount = account;
+          deleteMessage.textContent = `${account.name} (${account.email}) will lose access to the admin workspace.`;
+          deleteFeedback.textContent = '';
+          deleteDialog.showModal();
+        });
+        row.insertCell().append(remove);
+        return row;
+      });
+      tableBody.replaceChildren(...rows);
+    }
+
+    async function loadDirectory() {
+      const request = ++directoryRequest;
+      try {
+        const data = await requestAccounts('list');
+        if (request !== directoryRequest) return;
+        accounts = (data || []).sort((a, b) => String(a.name || '').localeCompare(String(b.name || '')));
+        renderDirectory();
+      } catch (error) {
+        if (request !== directoryRequest) return;
+        console.error(error);
+        accounts = null;
+        directoryCount.textContent = '';
+        tableRegion.hidden = true;
+        directoryState.textContent = 'Unable to load administrator accounts. Reload this page to try again.';
+        directoryState.hidden = false;
+      }
+    }
+
+    search.addEventListener('input', renderDirectory);
+
+    addForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      const data = new FormData(addForm);
+      const name = String(data.get('name')).trim();
+      if (!name) {
+        addFeedback.dataset.state = 'error';
+        addFeedback.textContent = 'Enter the administrator’s full name.';
+        addForm.elements.namedItem('name').focus();
+        return;
+      }
+
+      data.set('name', name);
+      data.set('email', String(data.get('email')).trim());
+      addButton.disabled = true;
+      addFeedback.textContent = 'Adding administrator…';
+      delete addFeedback.dataset.state;
+      try {
+        await requestAccounts('add', data);
+        addForm.reset();
+        search.value = '';
+        await loadDirectory();
+        addFeedback.dataset.state = 'success';
+        addFeedback.textContent = 'Administrator added.';
+      } catch (error) {
+        console.error(error);
+        addFeedback.dataset.state = 'error';
+        addFeedback.textContent = 'Unable to add the administrator. Check the details and try again.';
+      } finally {
+        addButton.disabled = false;
+      }
+    });
+
+    cancelDelete.addEventListener('click', () => deleteDialog.close());
+    deleteDialog.addEventListener('cancel', event => {
+      if (confirmDelete.disabled) event.preventDefault();
+    });
+
+    deleteForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!selectedAccount || confirmDelete.disabled) return;
+      const data = new FormData();
+      data.append('id', selectedAccount.id);
+
+      confirmDelete.disabled = true;
+      cancelDelete.disabled = true;
+      try {
+        await requestAccounts('delete', data);
+        deleteDialog.close();
+        await loadDirectory();
+        search.focus();
+      } catch (error) {
+        console.error(error);
+        deleteFeedback.dataset.state = 'error';
+        deleteFeedback.textContent = 'Unable to remove this account. Try again.';
+      } finally {
+        confirmDelete.disabled = false;
+        cancelDelete.disabled = false;
+      }
+    });
+
+    loadDirectory();
+  </script>
+</body>
+</html>

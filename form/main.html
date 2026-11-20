@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Enrollment Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="workspace.css" />
+  <script src="workspace.js" defer></script>
+  <style>
+    /* Toast notifications */
+    #toastContainer{position:fixed;right:16px;bottom:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+    .toast{background:#111827;color:#fff;padding:10px 14px;border-radius:8px;box-shadow:0 8px 24px rgba(2,6,23,0.2);transform:translateY(12px);opacity:0;transition:all 220ms ease;font-size:14px}
+    .toast--visible{transform:translateY(0);opacity:1}
+    .toast--success{background:#065f46}
+    .toast--error{background:#b91c1c}
+  </style>
+</head>
+<body class="workspace">
+  <div data-workspace-shell></div>
+
+  <!-- Enrollment Content -->
+  <div id="enrollment-tab" class="tab-content tab-content--active">
+    <main id="workspace-main" class="page workspace-page" tabindex="-1">
+      <div class="workspace-form-layout">
+        <details class="workspace-form-index" open>
+          <summary>Form sections</summary>
+          <nav aria-label="Form sections" data-workspace-form-nav></nav>
+        </details>
+        <div class="workspace-form-content">
+      <!-- Student LRN Search -->
+      <section class="card">
+        <header class="card__header">
+          <span class="icon icon--clipboard" aria-hidden="true"></span>
+          <h2>Student lookup</h2>
+        </header>
+
+        <div class="grid grid-2">
+            <div class="field">
+              <label for="lrnInput">Learner Reference Number (LRN)</label>
+              <input id="lrnInput" type="text" inputmode="numeric" placeholder="Enter 12-digit LRN" maxlength="12" pattern="[0-9]{12}" aria-describedby="lrnStatus" oninput="this.value=this.value.replace(/\D/g,'').slice(0,12)" />
+              <span id="lrnStatus" class="records-counter" aria-live="polite"></span>
+            </div>
+        </div>
+      </section>
+    <!-- Enrollment Details -->
+    <section class="card">
+      <header class="card__header">
+        <span class="icon icon--clipboard" aria-hidden="true"></span>
+        <h2>Enrollment Details</h2>
+      </header>
+
+      <div class="grid grid-2">
+        <!-- School Year -->
+        <div class="group">
+          <div class="label-bar">School Year</div>
+          <div class="field">
+            <select aria-label="School Year">
+              <option selected>2026 - 2027</option>
+              <option>2025 - 2026</option>
+              <option>2024 - 2025</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Enrollment Type removed per request -->
+
+        <!-- Curriculum -->
+        <div class="group">
+          <div class="label-bar">Curriculum</div>
+          <div class="field">
+            <select id="curriculumSelect" aria-label="Curriculum">
+              <option value="" selected hidden>Select curriculum</option>
+              <option value="spict">SPICT</option>
+              <option value="ste">STE</option>
+              <option value="spj">SPJ</option>
+              <option value="spa">SPA</option>
+              <option value="ict">ICT</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Year level defaults to Grade 7 until a student record is loaded. -->
+        <div class="group">
+          <div class="label-bar">Year Level</div>
+          <div class="field">
+            <select aria-label="Year Level" id="yearLevel">
+              <option>Grade 7</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Section (populated from Curriculum) -->
+        <div class="group">
+          <div class="label-bar">Section</div>
+          <div class="field">
+            <input type="text" id="sectionSelect" name="section" aria-label="Section" placeholder="Enter section" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learner’s Personal Details -->
+    <section class="card">
+      <header class="card__header">
+        <span class="icon icon--user" aria-hidden="true"></span>
+        <h2>Learner’s Personal Details</h2>
+      </header>
+
+      <div class="grid grid-2">
+        <!-- Left column -->
+        <div>
+          <div class="field">
+            <label>Last Name</label>
+            <input id="lastName" type="text" />
+          </div>
+          <div class="field">
+            <label>First Name</label>
+            <input id="firstName" name="first_name" type="text" />
+          </div>
+          <div class="field">
+            <label>Middle Name</label>
+            <input id="middleName" name="middle_name" type="text" />
+          </div>
+          <div class="field">
+            <label>Extension Name</label>
+            <div class="select-wrap">
+              <select>
+                <option selected hidden> </option>
+                <option>Jr.</option>
+                <option>Sr.</option>
+                <option>III</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input id="email" name="email" type="email" placeholder="student@example.com" />
+          </div>
+          <div class="field">
+            <label>Mobile Number</label>
+            <input id="mobile" name="mobile" type="tel" inputmode="tel" placeholder="0912xxxxxxx" />
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div>
+          <div class="field">
+            <label>Learner’s Reference No.(LRN)</label>
+            <input id="lrnDisplay" name="lrn" type="text" inputmode="numeric" />
+          </div>
+
+          <div class="grid grid-2 compact">
+            <div class="field">
+              <label>Birthdate</label>
+              <input id="birthdate" type="date" />
+            </div>
+            <div class="field">
+              <label>Age</label>
+              <input id="ageInput" type="number" min="0" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Place Of Birth (Municipality/City)</label>
+            <input id="placeOfBirth" name="place_of_birth" type="text" />
+          </div>
+
+          <div class="grid grid-2 compact">
+            <div class="field">
+              <label>Sex</label>
+              <div class="select-wrap">
+                <select id="sexSelect">
+                  <option selected hidden> </option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Prefer not to say</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Religion</label>
+              <div class="select-wrap">
+                <select id="religionSelect">
+                  <option selected hidden> </option>
+                  <option>Roman Catholic</option>
+                  <option>Christian</option>
+                  <option>Islam</option>
+                  <option>Buddhist</option>
+                  <option>Others</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Indigenous & 4P’s Information -->
+    <section class="card">
+      <header class="card__header">
+        <h2>Indigenous & 4P’s Information</h2>
+      </header>
+
+      <div class="inner-panel">
+        <!-- Block 1 -->
+          <div class="question">
+            <p>&gt; Belong to any Indigenous Peoples (IP) Community/Indigenous Cultural Community?</p>
+            <div class="segmented">
+              <label class="segmented__option">
+                <input type="radio" name="ip" id="ip_yes" value="yes" />
+                <span class="segmented__dot"></span>
+                <span class="segmented__label">Yes</span>
+              </label>
+              <label class="segmented__option">
+                <input type="radio" name="ip" id="ip_no" value="no" />
+                <span class="segmented__dot"></span>
+                <span class="segmented__label">No</span>
+              </label>
+              <span class="helper">if Yes, please specify</span>
+            </div>
+            <div class="field mt-12">
+              <input id="indigenous_specify" name="indigenous_specify" type="text" aria-label="IP Specify" />
+            </div>
+          </div>
+
+        <!-- Block 2 -->
+        <div class="question">
+          <p>&gt; Is your family a beneficiary of 4Ps?</p>
+          <div class="segmented">
+            <label class="segmented__option">
+              <input type="radio" name="fourps" id="fourps_yes" value="yes" />
+              <span class="segmented__dot"></span>
+              <span class="segmented__label">Yes</span>
+            </label>
+            <label class="segmented__option">
+              <input type="radio" name="fourps" id="fourps_no" value="no" />
+              <span class="segmented__dot"></span>
+              <span class="segmented__label">No</span>
+            </label>
+            <span class="helper">if Yes, please write the 4Ps Household ID Number</span>
+          </div>
+          <div class="field mt-12">
+            <input id="fourps_household_id" name="fourps_household_id" type="text" aria-label="4Ps Household ID Number" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Address + Parent/Guardian -->
+    <section class="grid grid-2 side-by-side">
+      <!-- Address card -->
+      <div class="card">
+        <header class="card__header">
+          <h2>Address</h2>
+        </header>
+
+        <div class="group">
+          <div class="label-bar">Current Address</div>
+          <div class="field">
+            <label class="sr-only">Current Address</label>
+          </div>
+
+          <div class="field">
+            <label>House No.</label>
+            <input id="house_no" name="house_no" type="text" />
+          </div>
+
+          <div class="grid grid-2 compact">
+            <div class="field">
+              <label>Barangay</label>
+              <input id="barangay" name="barangay" type="text" />
+            </div>
+            <div class="field">
+              <label>Municipality</label>
+              <input id="municipality" name="municipality" type="text" />
+            </div>
+          </div>
+
+          <div class="grid grid-2 compact">
+            <div class="field">
+              <label>Country</label>
+              <input id="country" name="country" type="text" />
+            </div>
+            <div class="field">
+              <label>Province</label>
+              <input id="province" name="province" type="text" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Zip Code</label>
+            <input id="zip_code" name="zip_code" type="text" inputmode="numeric" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Parent/Guardian’s Information card -->
+      <div class="card">
+        <header class="card__header">
+          <h2>Parent/Guardian’s Information</h2>
+        </header>
+
+        <!-- Father -->
+        <details class="pane" open>
+          <summary><span class="icon icon--person" aria-hidden="true"></span> Father</summary>
+          <div class="grid grid-2 compact">
+            <div class="field">
+              <label>First Name</label>
+              <input id="father_first" name="father_first" type="text" />
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              <input id="father_last" name="father_last" type="text" />
+            </div>
+          </div>
+          <div class="field with-icon">
+            <label>Contact Number</label>
+            <input id="father_contact" name="father_contact" type="text" inputmode="tel" style="padding-right: 40px;" />
+          </div>
+        </details>
+
+        <!-- Mother’s Maiden Name -->
+        <details class="pane" open>
+          <summary><span class="icon icon--person" aria-hidden="true"></span> Mother’s Maiden Name</summary>
+          <div class="grid grid-2 compact">
+            <div class="field">
+              <label>First Name</label>
+              <input id="mother_first" name="mother_first" type="text" placeholder="Natalio" />
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              <input id="mother_last" name="mother_last" type="text" placeholder="Jennifer" />
+            </div>
+          </div>
+          <div class="field with-icon">
+            <label>Contact Number</label>
+            <input id="mother_contact" name="mother_contact" type="text" inputmode="tel" style="padding-right: 40px;" />
+          </div>
+        </details>
+
+        <!-- Guardian (if applicable) -->
+        <details class="pane" open>
+          <summary><span class="icon icon--shield" aria-hidden="true"></span> Guardian (if applicable)</summary>
+          <div class="field">
+            <label>Name</label>
+            <input id="guardian_name" name="guardian_name" type="text" />
+          </div>
+          <div class="field">
+            <label>Relationship</label>
+            <input id="guardian_relationship" name="guardian_relationship" type="text" />
+          </div>
+          <div class="field with-icon">
+            <label>Contact Number</label>
+            <input id="guardian_contact" name="guardian_contact" type="text" inputmode="tel" style="padding-right: 40px;" />
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Certification + Submit -->
+    <section class="card">
+      <header class="card__header"><h2>Confirm enrollment</h2></header>
+      <div class="submit-area">
+        <label class="checkbox">
+          <input type="checkbox" id="certify" />
+          <span class="checkbox__box"></span>
+          <span class="checkbox__label">I certify that information provided above is true and correct.</span>
+        </label>
+
+        <div class="workspace-form-actions">
+          <button id="saveApplicantBtn" class="btn btn--primary" disabled>
+            Save Changes
+          </button>
+          <button id="submitBtn" class="btn btn--secondary" disabled>
+            Enroll student
+          </button>
+        </div>
+      </div>
+    </section>
+        </div>
+      </div>
+    </main>
+  </div>
+
+
+  <script src="script.js"></script>
+  <div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+  <script>
+    // Simple toast helper used by Save/Enroll actions
+    function showToast(message, success = true, timeout = 3500) {
+      try {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const t = document.createElement('div');
+        t.className = 'toast ' + (success ? 'toast--success' : 'toast--error');
+        t.textContent = message;
+        container.appendChild(t);
+        // allow CSS transition
+        requestAnimationFrame(() => t.classList.add('toast--visible'));
+        setTimeout(() => {
+          t.classList.remove('toast--visible');
+          setTimeout(() => { try { container.removeChild(t); } catch(e){} }, 220);
+        }, timeout);
+      } catch (e) { /* ignore */ }
+    }
+    // Autofill learner details when LRN is entered.
+    (function(){
+      const lrnEl = document.getElementById('lrnInput');
+      if (!lrnEl) return;
+      // debounce helper
+      const debounce = (fn, wait) => {
+        let t;
+        return function(...args){
+          clearTimeout(t);
+          t = setTimeout(()=>fn.apply(this,args), wait);
+        };
+      };
+
+      const doLookup = function(v){
+        if (!v) return;
+        const statusEl = document.getElementById('lrnStatus');
+        if (statusEl) statusEl.textContent = 'Searching...';
+        if (window._lrnAbort) window._lrnAbort.abort();
+        window._lrnAbort = new AbortController();
+        const signal = window._lrnAbort.signal;
+        fetch('../controllers/get_applicant_by_lrn.php?lrn='+encodeURIComponent(v), {signal})
+          .then(r=>r.json())
+          .then(data=>{
+            if (!data || !data.success || !data.applicant) {
+              if (statusEl) {
+                statusEl.textContent = 'No record found';
+                setTimeout(()=>{ if (statusEl) statusEl.textContent = ''; }, 3000);
+              }
+              return;
+            }
+            if (statusEl) statusEl.textContent = '';
+            const a = data.applicant;
+            const set = (id, val) => {
+              const el = document.getElementById(id);
+              if (!el) return;
+              el.value = val || '';
+            };
+            set('lastName', a.last_name);
+            set('firstName', a.first_name);
+            set('middleName', a.middle_name);
+            // fill the visible LRN field in the form
+            set('lrnDisplay', a.lrn || a.lrn_number || a.lrn_no || '');
+            set('birthdate', a.birthdate);
+            // Age: prefer explicit `age` column, otherwise compute from birthdate
+            if (a.age) {
+              set('ageInput', a.age);
+            } else if (a.birthdate) {
+              const bd = new Date(a.birthdate);
+              if (!isNaN(bd.getTime())) {
+                const diff = Date.now() - bd.getTime();
+                const age = Math.floor(diff / (365.25*24*60*60*1000));
+                set('ageInput', age);
+              }
+            }
+            set('placeOfBirth', a.place_of_birth || a.placeOfBirth || a.birthplace || '');
+            set('email', a.email);
+            set('mobile', a.mobile);
+            // populate section text (accept multiple possible field names)
+            try {
+              const secVal = String(a.section_text || a.section || a.section_name || a.class_section || a.section_assigned || '').trim();
+              set('sectionSelect', secVal);
+            } catch (e) { /* ignore */ }
+            // Helper: set select by value or visible option text (case-insensitive)
+            const setSelectFlexible = (id, val) => {
+              if (!val) return;
+              const el = document.getElementById(id);
+              if (!el) return;
+              // try direct value match first
+              for (const opt of el.options) {
+                if (opt.value === val) { el.value = opt.value; return; }
+              }
+              const target = String(val).trim().toLowerCase();
+              for (const opt of el.options) {
+                if ((opt.value || '').toLowerCase() === target || (opt.text || '').toLowerCase() === target) {
+                  el.value = opt.value || opt.text; return;
+                }
+              }
+              // fallback: try substring match on option text
+              for (const opt of el.options) {
+                if ((opt.text || '').toLowerCase().indexOf(target) !== -1) { el.value = opt.value || opt.text; return; }
+              }
+            };
+
+            setSelectFlexible('sexSelect', a.gender || a.sex || a.sexual || '');
+            setSelectFlexible('religionSelect', a.religion || '');
+            const year = document.getElementById('yearLevel');
+            const grade = String(a.year_level || 'Grade 7').trim() || 'Grade 7';
+            year.replaceChildren(new Option(grade, grade));
+
+            // Autofill curriculum from `applicants.curriculum` (use exact applicant value)
+            try {
+              const curSelect = document.getElementById('curriculumSelect');
+              if (curSelect) {
+                const canonical = (a.curriculum || '').toString().trim();
+                if (canonical) {
+                  let found = false;
+                  const lowerCanonical = canonical.toLowerCase();
+                  for (const opt of curSelect.options) {
+                    if (((opt.value || '').toString().toLowerCase() === lowerCanonical) || ((opt.text || '').toLowerCase() === lowerCanonical)) {
+                      curSelect.value = opt.value || opt.text; found = true; break;
+                    }
+                  }
+                  if (!found) {
+                    const add = document.createElement('option');
+                    add.value = canonical;
+                    add.text = canonical;
+                    add.selected = true;
+                    curSelect.appendChild(add);
+                    curSelect.value = canonical;
+                  }
+                }
+              }
+            } catch (e) { /* ignore */ }
+
+            // Indigenous / 4Ps: map DB boolean flags and extra fields
+            try {
+              if (typeof a.is_indigenous !== 'undefined') {
+                const yes = document.getElementById('ip_yes');
+                const no = document.getElementById('ip_no');
+                if (yes && no) {
+                  if (parseInt(a.is_indigenous,10) === 1) { yes.checked = true; no.checked = false; }
+                  else { yes.checked = false; no.checked = true; }
+                }
+              }
+              const indSpec = document.getElementById('indigenous_specify');
+              if (indSpec) indSpec.value = a.indigenous_specify || '';
+
+              if (typeof a.is_4ps !== 'undefined') {
+                const yes4 = document.getElementById('fourps_yes');
+                const no4 = document.getElementById('fourps_no');
+                if (yes4 && no4) {
+                  if (parseInt(a.is_4ps,10) === 1) { yes4.checked = true; no4.checked = false; }
+                  else { yes4.checked = false; no4.checked = true; }
+                }
+              }
+              const fhid = document.getElementById('fourps_household_id');
+              if (fhid) fhid.value = a.fourps_household_id || '';
+            } catch (e) {
+              // ignore
+            }
+            set('father_first', a.father_first);
+            set('father_last', a.father_last);
+            set('father_contact', a.father_contact);
+            set('mother_first', a.mother_first);
+            set('mother_last', a.mother_last);
+            set('mother_contact', a.mother_contact);
+            set('guardian_name', a.guardian_name);
+            set('guardian_relationship', a.guardian_relationship);
+            set('guardian_contact', a.guardian_contact);
+            // populate address fields if present in the applicant row
+            set('house_no', a.house_no);
+            set('barangay', a.barangay);
+            set('municipality', a.municipality);
+            set('country', a.country);
+            set('province', a.province);
+            set('zip_code', a.zip_code);
+            // enable Save button after autofill so user can save edits without enrolling
+            const saveBtnAuto = document.getElementById('saveApplicantBtn');
+            if (saveBtnAuto) saveBtnAuto.disabled = false;
+          })
+          .catch(err=>{
+            if (err && err.name === 'AbortError') return;
+            const statusEl2 = document.getElementById('lrnStatus'); if (statusEl2) statusEl2.textContent = '';
+          });
+      };
+
+      const debouncedLookup = debounce(function(){ doLookup(this.value.trim()); }, 400);
+      lrnEl.addEventListener('input', debouncedLookup);
+      lrnEl.addEventListener('paste', function(e){
+        // handle paste by scheduling lookup after paste completes
+        setTimeout(()=>debouncedLookup.call(lrnEl), 50);
+      });
+      
+      // Enable save button when fields change
+      const saveBtn = document.getElementById('saveApplicantBtn');
+      const statusElMain = document.getElementById('lrnStatus');
+      const enableSave = () => { if (saveBtn) saveBtn.disabled = false; };
+
+      // Fields to watch
+      const watchIds = ['firstName','middleName','lastName','lrnDisplay','birthdate','ageInput','placeOfBirth','sexSelect','religionSelect','indigenous_specify','fourps_household_id','father_first','father_last','father_contact','mother_first','mother_last','mother_contact','guardian_name','guardian_relationship','guardian_contact','house_no','barangay','municipality','country','province','zip_code','email','mobile','sectionSelect'];
+      watchIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', enableSave);
+        el.addEventListener('change', enableSave);
+      });
+
+      if (saveBtn) {
+        saveBtn.addEventListener('click', async function(){
+          const lrn = document.getElementById('lrnInput').value.trim();
+          if (!lrn) {
+            alert('Enter LRN to identify applicant before saving.');
+            return;
+          }
+
+          // Use section text directly (no section_id lookup)
+          const sectionName = (document.getElementById('sectionSelect')||{}).value.trim();
+
+          const payload = {
+            lrn: lrn,
+            first_name: document.getElementById('firstName').value.trim(),
+            middle_name: document.getElementById('middleName').value.trim(),
+            last_name: document.getElementById('lastName').value.trim(),
+            birthdate: document.getElementById('birthdate').value || null,
+            place_of_birth: document.getElementById('placeOfBirth').value.trim(),
+            gender: document.getElementById('sexSelect').value || null,
+            religion: document.getElementById('religionSelect').value || null,
+            // indigenous / 4ps mapped to DB column names expected by update endpoint
+            is_indigenous: (document.querySelector('input[name="ip"]:checked')||{}).value === 'yes' ? 1 : 0,
+            indigenous_specify: (document.getElementById('indigenous_specify')||{}).value || null,
+            is_4ps: (document.querySelector('input[name="fourps"]:checked')||{}).value === 'yes' ? 1 : 0,
+            fourps_household_id: (document.getElementById('fourps_household_id')||{}).value || null,
+            email: (document.getElementById('email')||{}).value || null,
+            mobile: (document.getElementById('mobile')||{}).value || null,
+            father_first: (document.getElementById('father_first')||{}).value || null,
+            father_last: (document.getElementById('father_last')||{}).value || null,
+            father_contact: (document.getElementById('father_contact')||{}).value || null,
+            mother_first: (document.getElementById('mother_first')||{}).value || null,
+            mother_last: (document.getElementById('mother_last')||{}).value || null,
+            mother_contact: (document.getElementById('mother_contact')||{}).value || null,
+            guardian_name: (document.getElementById('guardian_name')||{}).value || null,
+            guardian_relationship: (document.getElementById('guardian_relationship')||{}).value || null,
+            guardian_contact: (document.getElementById('guardian_contact')||{}).value || null,
+            house_no: (document.getElementById('house_no')||{}).value || null,
+            barangay: (document.getElementById('barangay')||{}).value || null,
+            municipality: (document.getElementById('municipality')||{}).value || null,
+            country: (document.getElementById('country')||{}).value || null,
+            province: (document.getElementById('province')||{}).value || null,
+            zip_code: (document.getElementById('zip_code')||{}).value || null
+          };
+
+          // include the raw section text (and a generic `section` field for compatibility)
+          if (sectionName) {
+            payload.section_text = sectionName;
+            payload.section = sectionName;
+          }
+          // include selected curriculum when saving edits
+          try {
+            const cur = (document.getElementById('curriculumSelect')||{}).value || null;
+            if (cur) payload.curriculum = cur;
+          } catch(e) { /* ignore */ }
+
+          if (statusElMain) statusElMain.textContent = 'Saving...';
+          try {
+            const res = await fetch('../controllers/update_applicant.php', {
+              method: 'POST',
+              headers: {'Content-Type':'application/json'},
+              body: JSON.stringify(payload)
+            });
+            const js = await res.json();
+            if (statusElMain) statusElMain.textContent = js && js.success ? 'Saved' : (js.message || 'Save failed');
+            if (js && js.success) showToast('Saved successfully'); else showToast(js && js.message ? js.message : 'Save failed', false);
+            setTimeout(()=>{ if (statusElMain) statusElMain.textContent = ''; }, 3000);
+            if (js && js.success) {
+              if (saveBtn) saveBtn.disabled = true;
+            }
+          } catch (e) {
+            if (statusElMain) statusElMain.textContent = 'Save failed';
+            showToast('Save failed', false);
+            setTimeout(()=>{ if (statusElMain) statusElMain.textContent = ''; }, 3000);
+          }
+        });
+      }
+      // Enroll button: enable only when certify is checked; send status update to mark applicant as enrolled
+      const enrollBtn = document.getElementById('submitBtn');
+      const certifyChk = document.getElementById('certify');
+      if (certifyChk && enrollBtn) {
+        certifyChk.addEventListener('change', function(){
+          enrollBtn.disabled = !this.checked;
+        });
+        // initialize state
+        enrollBtn.disabled = !certifyChk.checked;
+
+        enrollBtn.addEventListener('click', async function(){
+          const lrn = document.getElementById('lrnInput').value.trim() || document.getElementById('lrnDisplay').value.trim();
+          if (!lrn) { alert('Enter LRN to identify applicant before enrolling.'); return; }
+
+          const payload = {
+            lrn: lrn,
+            status: 'enrolled'
+          };
+          // include curriculum and section_text when available
+          const curriculumEl = document.getElementById('curriculumSelect');
+          if (curriculumEl && curriculumEl.value) payload.curriculum = curriculumEl.value;
+          const sectionText = (document.getElementById('sectionSelect')||{}).value || '';
+          if (sectionText) payload.section_text = sectionText;
+
+          if (statusElMain) statusElMain.textContent = 'Enrolling...';
+          try {
+            const res = await fetch('../controllers/update_applicant.php', {
+              method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
+            });
+            const js = await res.json();
+            if (js && js.success) {
+              if (statusElMain) statusElMain.textContent = 'Student enrolled';
+              showToast('Student enrolled', true);
+              // disable buttons to avoid duplicate actions
+              enrollBtn.disabled = true; if (saveBtn) saveBtn.disabled = true;
+            } else {
+              const m = js && js.message ? js.message : 'Enroll failed';
+              if (statusElMain) statusElMain.textContent = m;
+              showToast(m, false);
+            }
+            setTimeout(()=>{ if (statusElMain) statusElMain.textContent = ''; }, 3000);
+          } catch (e) {
+            if (statusElMain) statusElMain.textContent = 'Enroll failed';
+            showToast('Enroll failed', false);
+            setTimeout(()=>{ if (statusElMain) statusElMain.textContent = ''; }, 3000);
+          }
+        });
+      }
+    })();
+
+  // If navigating from Students 'Edit', accept either a simple LRN key or a JSON payload
+  (function(){
+    try{
+      const raw = localStorage.getItem('editStudent');
+      if (raw) {
+        try {
+          const payload = JSON.parse(raw || '{}');
+          const lrn = payload.lrn || payload.lrn_number || payload.lrn_no || '';
+          const lrnEl = document.getElementById('lrnInput');
+          if (lrnEl && lrn) {
+            lrnEl.value = lrn;
+            const disp = document.getElementById('lrnDisplay'); if (disp) disp.value = lrn;
+            lrnEl.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          // Defer applying incoming curriculum/section until after the lookup
+          // populates the curriculum options. Store them in a temp holder.
+          window._incomingEdit = {
+            curriculum: payload.curriculum || '',
+            section: payload.section || payload.section_text || payload.section_name || ''
+          };
+        } catch (e) { /* ignore malformed payload */ }
+        localStorage.removeItem('editStudent');
+        return;
+      }
+
+      // legacy simple LRN key
+      const lrn = localStorage.getItem('editStudentLrn');
+      if (!lrn) return;
+      const lrnEl = document.getElementById('lrnInput');
+      if (lrnEl) {
+        lrnEl.value = lrn;
+        const disp = document.getElementById('lrnDisplay'); if (disp) disp.value = lrn;
+        lrnEl.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      localStorage.removeItem('editStudentLrn');
+    }catch(e){ console.error('prefill editStudent failed', e); }
+  })();
+  </script>
+</body>
+</html>

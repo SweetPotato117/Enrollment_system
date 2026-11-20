@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Overview | Bongabon National High School</title>
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="workspace.css" />
+  <script src="workspace.js" defer></script>
+  <script src="records.js" defer></script>
+  <script src="dashboard.js" defer></script>
+</head>
+<body class="workspace">
+  <div data-workspace-shell></div>
+  <div class="tab-content tab-content--active">
+    <main id="workspace-main" class="page workspace-page workspace-dashboard" tabindex="-1">
+      <header class="dashboard-banner">
+        <h1>Admissions &amp;<br> Registration Overview</h1>
+        <p>Review applications, schedule entrance exams and register students at Bongabon National High School.</p>
+        <a class="workspace-button" href="applicants.html">Open applicants <span data-workspace-icon="arrow"></span></a>
+      </header>
+
+      <section class="dashboard-metrics" aria-label="Admissions and registration figures">
+        <a class="dashboard-metric" href="applicants.html">
+          <span class="dashboard-metric-top"><span class="dashboard-metric-icon" data-workspace-icon="applicants"></span><span data-workspace-icon="arrow"></span></span>
+          <strong id="metricApplicants">—</strong><span class="dashboard-metric-label">Applications on record</span>
+        </a>
+        <a class="dashboard-metric" href="applicants.html?status=Pending">
+          <span class="dashboard-metric-top"><span class="dashboard-metric-icon" data-workspace-icon="application"></span><span data-workspace-icon="arrow"></span></span>
+          <strong id="metricPending">—</strong><span class="dashboard-metric-label">Pending review</span>
+        </a>
+        <a class="dashboard-metric" href="students.html?status=cleared">
+          <span class="dashboard-metric-top"><span class="dashboard-metric-icon" data-workspace-icon="enrollment"></span><span data-workspace-icon="arrow"></span></span>
+          <strong id="metricCleared">—</strong><span class="dashboard-metric-label">Passed, awaiting registration</span>
+        </a>
+        <a class="dashboard-metric" href="students.html?status=enrolled">
+          <span class="dashboard-metric-top"><span class="dashboard-metric-icon" data-workspace-icon="students"></span><span data-workspace-icon="arrow"></span></span>
+          <strong id="metricEnrolled">—</strong><span class="dashboard-metric-label">Registered students</span>
+        </a>
+      </section>
+      <p class="dashboard-note" id="dashboardLimit" hidden>Figures cover the 1,000 most recent application records.</p>
+
+      <div class="dashboard-work">
+        <section class="card records-panel dashboard-quick" aria-labelledby="tasksHeading">
+          <header class="records-panel-heading"><h2 id="tasksHeading">Quick actions</h2></header>
+          <div class="dashboard-shortcuts">
+            <a href="application.html"><span data-workspace-icon="application"></span>Enter an application <span data-workspace-icon="arrow"></span></a>
+            <a href="main.html"><span data-workspace-icon="enrollment"></span>Register a student <span data-workspace-icon="arrow"></span></a>
+            <a href="exam_schedule.html"><span data-workspace-icon="exam"></span>Schedule an entrance exam <span data-workspace-icon="arrow"></span></a>
+            <a href="section_management.html"><span data-workspace-icon="sections"></span>Manage class sections <span data-workspace-icon="arrow"></span></a>
+          </div>
+        </section>
+        <section class="card records-panel dashboard-recent" aria-labelledby="recentHeading">
+          <header class="records-panel-heading">
+            <h2 id="recentHeading">Recent applications</h2>
+            <a class="workspace-link" href="applicants.html">View all</a>
+          </header>
+          <div class="records-table-region record-cards" id="dashboardRecords" hidden>
+            <table class="applicants-table" aria-labelledby="recentHeading" role="table">
+              <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Applicant</th><th scope="col" role="columnheader">Curriculum</th><th scope="col" role="columnheader">Status</th><th scope="col" role="columnheader">Action</th></tr></thead>
+              <tbody id="recentApplications" role="rowgroup"></tbody>
+            </table>
+          </div>
+          <p class="records-empty" id="dashboardStatus" role="status">Loading recent applications…</p>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Applicants List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="workspace.css" />
+  <script src="workspace.js" defer></script>
+</head>
+<body class="workspace">
+  <div data-workspace-shell></div>
+
+  <!-- Applicants Content -->
+  <div class="tab-content tab-content--active">
+    <main id="workspace-main" class="page workspace-page" tabindex="-1">
+      <section class="card records-panel" aria-labelledby="applicantsHeading">
+        <header class="records-panel-heading">
+          <h2 id="applicantsHeading">Application register</h2>
+          <span id="applicantCount" class="records-counter" aria-live="polite"></span>
+        </header>
+        <div class="records-toolbar">
+          <div class="field record-search">
+            <label for="searchInput">Search by name or LRN</label>
+            <input type="search" id="searchInput" placeholder="Enter a name or LRN" />
+          </div>
+          <div class="field">
+            <label for="applicantStatus">Review status</label>
+            <select id="applicantStatus">
+              <option value="">All statuses</option>
+              <option>Pending</option><option>Passed</option><option>Failed</option><option>Missing Documents</option><option>Enrolled</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="applicantSort">Sort by</label>
+            <select id="applicantSort">
+              <option value="">Newest first</option>
+              <option value="name asc">Name A–Z</option><option value="name desc">Name Z–A</option>
+              <option value="status asc">Review status</option>
+            </select>
+          </div>
+        </div>
+        <div class="records-table-region record-cards" id="applicantRecords" hidden>
+          <table class="applicants-table" aria-labelledby="applicantsHeading" role="table">
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader">Name</th>
+                <th scope="col" role="columnheader">LRN</th>
+                <th scope="col" role="columnheader">Status</th>
+                <th scope="col" role="columnheader">Action</th>
+              </tr>
+            </thead>
+            <tbody id="applicantsTableBody" role="rowgroup"></tbody>
+          </table>
+        </div>
+        <p class="records-empty" id="applicantMessage" role="status">Loading applications…</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Applicant Details Modal -->
+  <dialog id="applicantModal" class="workspace-dialog applicant-dialog" aria-labelledby="applicantDialogTitle">
+    <div class="modal__content">
+      <div class="modal__header">
+        <h2 id="applicantDialogTitle">Applicant Details</h2>
+        <button class="modal__close" type="button" aria-label="Close applicant details" onclick="closeApplicantModal()">&times;</button>
+      </div>
+      <div class="modal__body">
+        <!-- Personal Information (match Learner’s Personal Details) -->
+        <div class="modal__section">
+          <h3>Learner’s Personal Details</h3>
+          <div class="modal__grid">
+            <div>
+              <label>Last Name</label>
+              <p id="modalLastName"></p>
+            </div>
+            <div>
+              <label>First Name</label>
+              <p id="modalFirstName"></p>
+            </div>
+            <div>
+              <label>Middle Name</label>
+              <p id="modalMiddleName"></p>
+            </div>
+            <div>
+              <label>Extension Name</label>
+              <p id="modalExtName"></p>
+            </div>
+            <div>
+              <label>LRN</label>
+              <p id="modalLRN"></p>
+            </div>
+            <div>
+              <label>Birthdate</label>
+              <p id="modalBirthdate"></p>
+            </div>
+            <div>
+              <label>Age</label>
+              <p id="modalAge"></p>
+            </div>
+            <div>
+              <label>Place Of Birth</label>
+              <p id="modalPlaceOfBirth"></p>
+            </div>
+            <div>
+              <label>Sex</label>
+              <p id="modalSex"></p>
+            </div>
+            <div>
+              <label>Religion</label>
+              <p id="modalReligion"></p>
+            </div>
+            <div>
+              <label>Email</label>
+              <p id="modalEmail"></p>
+            </div>
+            <div>
+              <label>Mobile</label>
+              <p id="modalMobile"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Educational Background -->
+        <div class="modal__section">
+          <h3>Educational Background</h3>
+          <div class="modal__grid">
+            <div>
+              <label>School Name</label>
+              <p id="modalSchoolName"></p>
+            </div>
+            <div>
+              <label>School Address</label>
+              <p id="modalSchoolAddress"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Required Documents -->
+        <div class="modal__section">
+          <h3>Required Documents</h3>
+          <div id="modalDocuments" class="modal__grid" style="gap:8px;">
+            <div>
+              <label>Report Card</label>
+              <p id="modalReportCard">(No document uploaded)</p>
+            </div>
+            <div>
+              <label>Good Moral Character</label>
+              <p id="modalMoral">(No document uploaded)</p>
+            </div>
+            <div>
+              <label>Health Declaration</label>
+              <p id="modalHealth">(No document uploaded)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="modal__section">
+          <h3>Examination Status</h3>
+          <div class="segmented" style="margin-top:8px;">
+            <label class="segmented__option">
+              <input type="radio" name="modalStatus" id="modalPassed" value="passed" />
+              <span class="segmented__dot"></span>
+              <span class="segmented__label">Passed</span>
+            </label>
+            <label class="segmented__option">
+              <input type="radio" name="modalStatus" id="modalFailed" value="failed" />
+              <span class="segmented__dot"></span>
+              <span class="segmented__label">Failed</span>
+            </label>
+            <label class="segmented__option">
+              <input type="radio" name="modalStatus" id="modalNonAttendee" value="non-attendee" />
+              <span class="segmented__dot"></span>
+              <span class="segmented__label">Non-attendee</span>
+            </label>
+          </div>
+          <div style="margin-top:8px;">
+            <label>Remark</label>
+            <p id="modalRemark" style="white-space:pre-wrap; margin-top:6px; color:var(--text-secondary);"> </p>
+          </div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--secondary" onclick="closeApplicantModal()">Close</button>
+        <button id="modalEditBtn" class="btn btn--secondary" onclick="toggleModalEdit()">Edit</button>
+        <button id="modalSaveBtn" class="btn btn--primary" onclick="saveApplicantModal()" hidden>Save changes</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="records.js"></script>
+  <script>
+    const applicantRecords = document.getElementById('applicantRecords');
+    const applicantBody = document.getElementById('applicantsTableBody');
+    const applicantCount = document.getElementById('applicantCount');
+    const applicantMessage = document.getElementById('applicantMessage');
+    const applicantSearch = document.getElementById('searchInput');
+    const applicantStatus = document.getElementById('applicantStatus');
+    const applicantSort = document.getElementById('applicantSort');
+    const applicantDialog = document.getElementById('applicantModal');
+    const params = new URLSearchParams(location.search);
+    applicantStatus.value = [...applicantStatus.options].some(option => option.value === params.get('status')) ? params.get('status') : '';
+    let applicants = [];
+    let initialApplicant = params.get('applicant');
+
+    function renderApplicants() {
+      const query = applicantSearch.value.trim().toLowerCase();
+      const visible = workspaceRecords.sorted(applicants.filter(record => {
+        return (!applicantStatus.value || applicantStatus.value === record.review)
+          && (!query || record.name.toLowerCase().includes(query) || record.lrn.includes(query));
+      }), applicantSort.value, (record, key) => key === 'name' ? record.name : record.review);
+      applicantBody.replaceChildren();
+      visible.forEach(record => {
+        const line = workspaceRecords.row(applicantBody);
+        workspaceRecords.cell(line, '', record.name);
+        workspaceRecords.cell(line, 'LRN', record.lrn || '—');
+        workspaceRecords.cell(line, 'Status', workspaceRecords.badge(record.review));
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn--secondary';
+        button.textContent = 'View details';
+        button.setAttribute('aria-label', 'View details for ' + record.name);
+        button.dataset.applicantId = record.id;
+        button.addEventListener('click', () => openApplicantModal(record.id));
+        workspaceRecords.cell(line, '', button);
+      });
+      applicantCount.textContent = visible.length + ' of ' + applicants.length + ' records';
+      applicantRecords.hidden = !visible.length;
+      applicantMessage.hidden = visible.length > 0;
+      applicantMessage.textContent = applicants.length ? 'No applications match your filters.' : 'No applications have been submitted.';
+    }
+
+    applicantSearch.addEventListener('input', renderApplicants);
+    applicantStatus.addEventListener('change', renderApplicants);
+    applicantSort.addEventListener('change', renderApplicants);
+    applicantDialog.addEventListener('close', () => {
+      const trigger = [...applicantBody.querySelectorAll('button[data-applicant-id]')].find(button => button.dataset.applicantId === String(window._lastOpenedApplicantId));
+      (trigger || applicantSearch).focus();
+    });
+    loadApplicants();
+
+    // Modal helpers: fetch and populate fields and show documents links
+    function openApplicantModal(id){
+      const modal = document.getElementById('applicantModal');
+      if(!modal) return;
+      if (!id) return;
+      // fetch applicant data (defensive: validate response and content-type)
+      fetch('../controllers/get_applicant.php?id=' + encodeURIComponent(id), { credentials: 'same-origin' })
+        .then(async res => {
+          if (!res.ok) {
+            const text = await res.text().catch(()=>'');
+            throw new Error(`Server returned ${res.status}: ${text || res.statusText}`);
+          }
+          const ct = (res.headers.get('Content-Type') || '');
+          if (ct.indexOf('application/json') === -1) {
+            const text = await res.text().catch(()=>'(no body)');
+            throw new Error('Invalid JSON response from server: ' + text);
+          }
+          return res.json();
+        })
+        .then(data => {
+          if (!data.success) throw new Error(data.error || 'Failed to load');
+          const a = data.applicant || {};
+          // Personal details: populate fields that match Learner’s Personal Details
+          document.getElementById('modalLastName').textContent = a.last_name || '';
+          document.getElementById('modalFirstName').textContent = a.first_name || '';
+          document.getElementById('modalMiddleName').textContent = a.middle_name || '';
+          document.getElementById('modalExtName').textContent = a.extension_name || '';
+          document.getElementById('modalLRN').textContent = a.lrn || '';
+          // birthdate and computed age
+          const bdVal = a.birthdate || a.dob || '';
+          document.getElementById('modalBirthdate').textContent = bdVal;
+          if (bdVal) {
+            const bd = new Date(bdVal);
+            if (!isNaN(bd.getTime())) {
+              const diff = Date.now() - bd.getTime();
+              const age = Math.floor(diff / (365.25*24*60*60*1000));
+              document.getElementById('modalAge').textContent = age;
+            } else {
+              document.getElementById('modalAge').textContent = '';
+            }
+          } else {
+            document.getElementById('modalAge').textContent = '';
+          }
+          document.getElementById('modalPlaceOfBirth').textContent = a.place_of_birth || '';
+          document.getElementById('modalSex').textContent = a.gender || '';
+          document.getElementById('modalReligion').textContent = a.religion || '';
+          document.getElementById('modalEmail').textContent = a.email || '';
+          document.getElementById('modalMobile').textContent = a.mobile || '';
+          // Educational background: prefer `current_school` / `current_school_address` from DB
+          document.getElementById('modalSchoolName').textContent = a.current_school || a.school_name || '';
+          document.getElementById('modalSchoolAddress').textContent = a.current_school_address || a.school_address || '';
+
+          // Status
+          const status = a.status || a.exam_status || '';
+          const passed = document.getElementById('modalPassed');
+          const failed = document.getElementById('modalFailed');
+          const nonatt = document.getElementById('modalNonAttendee');
+          if(passed) passed.checked = status === 'passed';
+          if(failed) failed.checked = status === 'failed';
+          if(nonatt) nonatt.checked = status === 'non-attendee';
+          // radios should be read-only in view mode; enable only in edit mode
+          if (passed) passed.disabled = true;
+          if (failed) failed.disabled = true;
+          if (nonatt) nonatt.disabled = true;
+
+          // Remark / note
+          const remarkText = a.exam_remark || a.remark || a.remarks || a.note || '';
+          const remarkEl = document.getElementById('modalRemark');
+          if (remarkEl) remarkEl.textContent = remarkText;
+
+          // Documents: show inline preview for images/PDFs, fallback to link
+          const files = data.files || {};
+          const map = [
+            {id: 'modalReportCard', url: files.reportCard},
+            {id: 'modalMoral', url: files.moralCharacter},
+            {id: 'modalHealth', url: files.healthDeclaration}
+          ];
+          // normalize upload URL returned by the server to be accessible from pages in /form/
+          function normalizeUploadUrl(u){
+            if (!u) return u;
+            if (/^https?:\/\//i.test(u) || u.startsWith('/')) return u;
+            // pages under /form/ need one level up to reach project root
+            try{
+              if (window.location.pathname.indexOf('/form/') !== -1) return '../' + u.replace(/^\.\/?/, '');
+            }catch(e){ }
+            return u;
+          }
+
+          map.forEach(d => {
+            const el = document.getElementById(d.id);
+            if(!el) return;
+            el.innerHTML = '';
+            if (!d.url) {
+              el.textContent = '(No document uploaded)';
+              return;
+            }
+            try {
+              const url = normalizeUploadUrl(d.url);
+              const lower = url.split('?')[0].split('.').pop().toLowerCase();
+              if (['png','jpg','jpeg','gif','webp'].includes(lower)) {
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = 'Document image';
+                img.style.maxWidth = 'min(220px, 100%)';
+                img.style.maxHeight = '220px';
+                img.style.display = 'block';
+                img.style.border = '1px solid #ddd';
+                img.style.padding = '4px';
+                el.appendChild(img);
+                const a = document.createElement('a');
+                a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = 'Open full image';
+                a.style.display = 'block'; a.style.marginTop = '6px';
+                el.appendChild(a);
+              } else if (lower === 'pdf') {
+                const wrapper = document.createElement('div');
+                wrapper.style.width = '100%';
+                wrapper.style.maxHeight = '320px';
+                wrapper.style.overflow = 'hidden';
+                const iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.title = 'Applicant document preview';
+                iframe.style.width = '100%';
+                iframe.style.height = '300px';
+                iframe.style.border = '1px solid #ddd';
+                wrapper.appendChild(iframe);
+                el.appendChild(wrapper);
+                const a = document.createElement('a');
+                a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = 'Open PDF in new tab';
+                a.style.display = 'block'; a.style.marginTop = '6px';
+                el.appendChild(a);
+              } else {
+                const aTag = document.createElement('a');
+                aTag.href = url;
+                aTag.target = '_blank';
+                aTag.rel = 'noopener noreferrer';
+                aTag.textContent = 'Download / Open document';
+                el.appendChild(aTag);
+              }
+            } catch (err) {
+              el.textContent = '(Unable to preview document)';
+            }
+            // Add admin review controls (Approve / Reject)
+            try {
+              const ctrl = document.createElement('div');
+              ctrl.style.marginTop = '8px';
+              ctrl.className = 'applicant-document-actions';
+
+              const approveBtn = document.createElement('button');
+              approveBtn.textContent = 'Approve Document';
+              approveBtn.className = 'btn btn--secondary';
+              approveBtn.type = 'button';
+              approveBtn.addEventListener('click', function(){
+                reviewDocument(id, d.id, 'approve');
+              });
+
+              const rejectBtn = document.createElement('button');
+              rejectBtn.textContent = 'Reject Document';
+              rejectBtn.className = 'btn btn--danger';
+              rejectBtn.type = 'button';
+              rejectBtn.addEventListener('click', function(){
+                const reason = prompt('Enter reason for rejection (optional):');
+                if (reason === null) return; // cancelled
+                reviewDocument(id, d.id, 'reject', reason || 'Invalid document');
+              });
+
+              ctrl.appendChild(approveBtn);
+              ctrl.appendChild(rejectBtn);
+              el.appendChild(ctrl);
+            } catch (e) { /* ignore UI enhancement errors */ }
+          });
+
+          // reset edit mode
+          window._modalEditMode = false;
+          window._lastOpenedApplicantId = id;
+          const editBtn = document.getElementById('modalEditBtn'); if (editBtn) editBtn.textContent = 'Edit';
+          document.getElementById('modalSaveBtn').hidden = true;
+          if (!modal.open) modal.showModal();
+        })
+        .catch(err => {
+          console.error('Failed to load applicant details', err);
+          alert('Failed to load applicant details: ' + (err && err.message ? err.message : 'unknown'));
+        });
+    }
+
+    function closeApplicantModal(){
+      applicantDialog.close();
+    }
+
+    function toggleModalEdit(){
+      const mode = !window._modalEditMode;
+      window._modalEditMode = mode;
+      const editBtn = document.getElementById('modalEditBtn');
+      const saveBtn = document.getElementById('modalSaveBtn');
+      saveBtn.hidden = !mode;
+      if (mode){
+        if (editBtn) editBtn.textContent = 'Cancel';
+        // convert display paragraphs to inputs
+        const fields = [
+          {p:'modalLastName', t:'text'}, {p:'modalFirstName', t:'text'}, {p:'modalMiddleName', t:'text'},
+          {p:'modalExtName', t:'text'}, {p:'modalLRN', t:'text'}, {p:'modalBirthdate', t:'date'},
+          {p:'modalAge', t:'number'}, {p:'modalPlaceOfBirth', t:'text'}, {p:'modalSex', t:'text'}, {p:'modalReligion', t:'text'},
+          {p:'modalEmail', t:'email'}, {p:'modalMobile', t:'tel'}, {p: 'modalRemark', t: 'textarea'}
+        ];
+        fields.forEach(f => {
+          const el = document.getElementById(f.p);
+          if (!el) return;
+          const val = el.textContent || '';
+          if (f.t === 'textarea') {
+            const ta = document.createElement('textarea');
+            ta.value = val.trim();
+            ta.id = f.p + '_input';
+            el.previousElementSibling.htmlFor = ta.id;
+            ta.style.width = '100%';
+            ta.style.minHeight = '80px';
+            el.innerHTML = '';
+            el.appendChild(ta);
+          } else {
+            const input = document.createElement('input');
+            input.type = f.t || 'text';
+            input.value = val.trim();
+            input.id = f.p + '_input';
+            el.previousElementSibling.htmlFor = input.id;
+            input.style.width = '100%';
+            el.innerHTML = '';
+            el.appendChild(input);
+          }
+        });
+        // enable status radios for editing
+        const passed = document.getElementById('modalPassed'); if (passed) passed.disabled = false;
+        const failed = document.getElementById('modalFailed'); if (failed) failed.disabled = false;
+        const nonatt = document.getElementById('modalNonAttendee'); if (nonatt) nonatt.disabled = false;
+      } else {
+        if (editBtn) editBtn.textContent = 'Edit';
+        openApplicantModal(window._lastOpenedApplicantId);
+      }
+    }
+
+    function saveApplicantModal(){
+      const idParam = window._lastOpenedApplicantId || null;
+      if (!idParam) { alert('No applicant id'); return; }
+      const getVal = (pid) => {
+        const inp = document.getElementById(pid + '_input');
+        if (inp) return inp.value;
+        const el = document.getElementById(pid);
+        return el ? el.textContent : '';
+      };
+      const payload = {
+        id: idParam,
+        last_name: getVal('modalLastName'),
+        first_name: getVal('modalFirstName'),
+        middle_name: getVal('modalMiddleName'),
+        extension_name: getVal('modalExtName'),
+        birthdate: getVal('modalBirthdate'),
+        place_of_birth: getVal('modalPlaceOfBirth'),
+        gender: getVal('modalSex'),
+        religion: getVal('modalReligion')
+      };
+      // include email and mobile if present
+      const emailVal = getVal('modalEmail'); if (emailVal) payload.email = emailVal;
+      const mobileVal = getVal('modalMobile'); if (mobileVal) payload.mobile = mobileVal;
+      // include exam status and remark
+      const statusSel = document.querySelector('input[name="modalStatus"]:checked');
+      if (statusSel && statusSel.value) payload.exam_status = statusSel.value;
+      const remarkVal = getVal('modalRemark'); if (remarkVal) payload.exam_remark = remarkVal;
+      fetch('../controllers/update_applicant.php', {
+        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
+      }).then(r=>r.json()).then(js=>{
+        if (js && js.success){
+          alert('Applicant updated');
+          // refresh list and reload modal in view mode
+          try{ loadApplicants(); }catch(e){}
+          window._modalEditMode = false;
+          const editBtn = document.getElementById('modalEditBtn'); if (editBtn) editBtn.textContent = 'Edit';
+          document.getElementById('modalSaveBtn').hidden = true;
+          openApplicantModal(idParam);
+        } else {
+          alert('Update failed: ' + (js && js.message ? js.message : 'unknown'));
+        }
+      }).catch(()=>alert('Update request failed'));
+    }
+
+    // Admin: review a specific uploaded document. docId is one of modalReportCard/modalMoral/modalHealth
+    async function reviewDocument(applicantId, docId, action, reason){
+      if (!applicantId) return;
+      const nameMap = {
+        'modalReportCard': 'Report Card',
+        'modalMoral': 'Good Moral Character',
+        'modalHealth': 'Health Declaration'
+      };
+      const friendly = nameMap[docId] || docId;
+      if (action === 'approve'){
+        // (legacy) kept for backward compatibility; main call uses review_document.php
+      }
+      try{
+        // map docId to normalized doc_type expected by review_document.php
+        const docMap = { 'modalReportCard': 'report_card', 'modalMoral': 'good_moral', 'modalHealth': 'health_declaration' };
+        const payload2 = {
+          applicant_id: parseInt(applicantId, 10),
+          doc_type: docMap[docId] || docId,
+          action: action === 'approve' ? 'approve' : (action === 'reject' ? 'reject' : 'pending'),
+          remark: reason || null
+        };
+        const res = await fetch('../controllers/review_document.php', {
+          method: 'POST', headers: {'Content-Type':'application/json'}, credentials: 'same-origin', body: JSON.stringify(payload2)
+        });
+        if (!res.ok) {
+          const txt = await res.text().catch(()=>res.statusText);
+          throw new Error('Server error: ' + (txt||res.statusText));
+        }
+        const js = await res.json();
+        if (js && js.success){
+          alert(`Document review saved: ${payload2.action}`);
+          // refresh list and modal view
+          try{ loadApplicants(); }catch(e){}
+          try{ openApplicantModal(applicantId); }catch(e){}
+        } else {
+          alert('Failed to save document review: ' + (js && js.message ? js.message : 'unknown'));
+        }
+      }catch(err){
+        console.error(err);
+        alert('Network error when saving review: ' + (err && err.message ? err.message : 'unknown'));
+      }
+    }
+
+    async function loadApplicants() {
+      try {
+        const response = await fetch('../controllers/get_applicants.php');
+        if (!response.ok) throw new Error('Applicants unavailable');
+        const result = await response.json();
+        if (!result.success || !Array.isArray(result.applicants)) throw new Error('Applicants unavailable');
+        applicants = result.applicants.map(record => ({
+          id: record.id,
+          name: workspaceRecords.name(record),
+          lrn: String(record.lrn || ''),
+          review: workspaceRecords.applicationStatus(record)
+        }));
+        renderApplicants();
+        if (initialApplicant && applicants.some(record => String(record.id) === initialApplicant)) {
+          openApplicantModal(initialApplicant);
+        }
+        initialApplicant = null;
+      } catch (error) {
+        applicantMessage.hidden = false;
+        applicantMessage.textContent = 'Applications could not be loaded. Refresh to try again.';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?php
+// Copy this file to mail_config.php and fill in real credentials.
+// Keep this file out of version control and never commit real passwords.
+return [
+    'host' => 'smtp.gmail.com',
+    // Your SMTP username (usually your full email)
+    'username' => 'bnhsenrollmentsystem@gmail.com',
+    // App password or SMTP password (do NOT use your Google account password; use an app password)
+    'password' => 'your_app_password_here',
+    'port' => 587,
+    'secure' => 'tls', // 'tls' or 'ssl'
+    'from_email' => 'bnhsenrollmentsystem@gmail.com',
+    'from_name' => 'BNHS Enrollment System'
+];

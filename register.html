@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Bongabon National High School</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --primary-blue-hover: #1e40af;
+            --primary-blue-active: #1e293b;
+            --accent-gold: #d97706;
+            --bg-gradient-start: #e0e7ff;
+            --bg-gradient-end: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-primary: #000000;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --input-bg: #f8fafc;
+            --input-border: #cbd5e1;
+            --input-focus: #3b82f6;
+            --error-color: #dc2626;
+            --success-color: #16a34a;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            height: 100vh;
+            background-image: linear-gradient(135deg, rgba(224,231,255,0.6) 0%, rgba(241,245,249,0.6) 100%), url('bghs.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0.75rem;
+            color: var(--text-primary);
+            position: relative;
+            overflow: hidden; /* prevent page-level scrollbar */
+        }
+
+        /* Decorative background elements */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -10%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(217, 119, 6, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(-30px, 30px) scale(1.05);
+            }
+        }
+
+        .page-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header Section */
+        .header-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .logo-placeholder {
+            height: 64px;
+            background: transparent;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+            position: relative;
+            overflow: visible;
+            padding: 0 8px;
+            min-width: 48px;
+        }
+
+        .logo-img {
+            height: 100%;
+            width: auto;
+            display: block;
+            background: none;
+        }
+
+        .header-text {
+            text-align: center;
+        }
+
+        .school-name {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .system-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Registration Card */
+        .registration-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1rem 0.9rem;
+            box-shadow: var(--shadow-lg);
+            max-width: 360px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            box-sizing: border-box;
+            /* keep the card within the viewport so the page itself doesn't scroll */
+            max-height: calc(100vh - 6.5rem);
+            overflow-y: auto;
+        }
+
+        /* removed top accent bar */
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-family: 'Libre Baskerville', serif;
+        }
+
+        .form-group {
+            margin-bottom: 0.75rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.3px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.65rem 0.75rem;
+            font-size: 0.95rem;
+            font-family: 'Work Sans', sans-serif;
+            color: var(--text-primary);
+            background: var(--input-bg);
+            border: 2px solid var(--input-border);
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            background: #ffffff;
+            border-color: var(--input-focus);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-input.error {
+            border-color: var(--error-color);
+        }
+
+        .form-input.success {
+            border-color: var(--success-color);
+        }
+
+        .error-message {
+            display: none;
+            color: var(--error-color);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Terms and Conditions */
+        .terms-wrapper {
+            margin-bottom: 2rem;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.625rem;
+        }
+
+        .checkbox-input {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: var(--primary-blue);
+            flex-shrink: 0;
+        }
+
+        .checkbox-label {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            user-select: none;
+            line-height: 1.5;
+        }
+
+        .terms-link {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .terms-link:hover {
+            color: var(--primary-blue-hover);
+            text-decoration: underline;
+        }
+
+        /* Register Button */
+        .register-button {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-hover) 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.22);
+            font-family: 'Work Sans', sans-serif;
+            letter-spacing: 0.4px;
+        }
+
+        .register-button:hover {
+            background: linear-gradient(135deg, var(--primary-blue-hover) 0%, var(--primary-blue) 100%);
+            box-shadow: 0 6px 16px rgba(30, 58, 138, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .register-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.3);
+        }
+
+        /* Footer Link */
+        .footer-link {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-link a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link a:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        /* Password strength indicator (optional visual enhancement) */
+        .password-hint {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: 0.375rem;
+            font-style: italic;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-section {
+                flex-direction: column;
+                gap: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .logo-placeholder {
+                height: 70px;
+                padding: 0 6px;
+            }
+
+            .school-name {
+                font-size: 1.5rem;
+            }
+
+            .system-name {
+                font-size: 0.85rem;
+                letter-spacing: 1.5px;
+            }
+
+            .registration-container {
+                padding: 1.25rem 1rem;
+                border-radius: 16px;
+            }
+
+            .card-title {
+                font-size: 1.75rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem 0.75rem;
+            }
+
+            .header-section {
+                gap: 1rem;
+            }
+
+            .logo-placeholder {
+                height: 60px;
+                padding: 0 6px;
+            }
+
+            .school-name {
+                font-size: 1.25rem;
+            }
+
+            .system-name {
+                font-size: 0.75rem;
+            }
+
+            .registration-container {
+                padding: 1.75rem 1.25rem;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .form-input {
+                padding: 0.75rem 0.875rem;
+                font-size: 0.9375rem;
+            }
+
+            .checkbox-label {
+                font-size: 0.8125rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar__container">
+            <div class="navbar__tabs">
+                <button class="navbar__tab" data-tab="enrollment" onclick="location.href='form/main.html'">Enrollment</button>
+                <button class="navbar__tab" data-tab="application" onclick="location.href='form/application.html'">Application</button>
+                <button class="navbar__tab" data-tab="exam" onclick="location.href='form/exam_schedule.html'">Exam Schedule</button>
+                <button class="navbar__tab" data-tab="applicants" onclick="location.href='form/applicants.html'">Applicants</button>
+                <button class="navbar__tab" data-tab="admin" onclick="location.href='form/admin_management.html'">Admin Management</button>
+                <button class="navbar__tab" data-tab="students" onclick="location.href='form/students.html'">Students</button>
+                
+                <button class="navbar__tab" data-tab="profile" onclick="location.href='form/admin_profile.html'">Admin Profile</button>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        (function(){
+            const mapping = { 'index.html':'enrollment','register.html':'application' };
+            const file = (location.pathname||'').split('/').pop();
+            const tab = mapping[file] || '';
+            document.querySelectorAll('.navbar__tab').forEach(btn => {
+                if (btn.dataset && btn.dataset.tab === tab) btn.classList.add('navbar__tab--active'); else btn.classList.remove('navbar__tab--active');
+            });
+        })();
+    </script>
+
+    <div class="page-container">
+        <!-- Header Section -->
+        <header class="header-section">
+            <div class="logo-placeholder" id="logo-left" aria-label="School logo placeholder">
+                <img src="logo1.png" alt="School logo" class="logo-img">
+            </div>
+            <div class="header-text">
+                <h1 class="school-name">Bongabon National High School</h1>
+                <p class="system-name">Web-Based Enrollment System</p>
+            </div>
+            <div class="logo-placeholder" id="logo-right" aria-label="DepEd logo placeholder">
+                <img src="logo2.png" alt="DepEd logo" class="logo-img">
+            </div>
+        </header>
+
+        <!-- Registration Card -->
+        <main class="registration-container">
+            <h2 class="card-title">Register</h2>
+            
+            <form id="registrationForm" novalidate>
+                <!-- Username Field -->
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="form-input" 
+                        placeholder="Choose a username"
+                        autocomplete="username"
+                    >
+                    <div class="error-message" id="usernameError">Please enter a username</div>
+                </div>
+
+                <!-- Email or LRN Field -->
+                <div class="form-group">
+                    <label for="emailOrLrn" class="form-label">Email or LRN</label>
+                    <input 
+                        type="text" 
+                        id="emailOrLrn" 
+                        name="emailOrLrn" 
+                        class="form-input" 
+                        placeholder="Enter your email or LRN"
+                        autocomplete="email"
+                    >
+                    <div class="error-message" id="emailError">Please enter your email or LRN</div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input" 
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                    >
+                    <div class="password-hint">Must be at least 8 characters</div>
+                    <div class="error-message" id="passwordError">Please enter a password</div>
+                </div>
+
+                <!-- Repeat Password Field -->
+                <div class="form-group">
+                    <label for="repeatPassword" class="form-label">Repeat Password</label>
+                    <input 
+                        type="password" 
+                        id="repeatPassword" 
+                        name="repeatPassword" 
+                        class="form-input" 
+                        placeholder="Confirm your password"
+                        autocomplete="new-password"
+                    >
+                    <div class="error-message" id="repeatPasswordError">Passwords do not match</div>
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="terms-wrapper">
+                    <div class="checkbox-wrapper">
+                        <input 
+                            type="checkbox" 
+                            id="agreeTerms" 
+                            name="agreeTerms" 
+                            class="checkbox-input"
+                        >
+                        <label for="agreeTerms" class="checkbox-label">
+                            I agree to the <a href="#" class="terms-link" id="termsLink">Terms and Conditions</a>
+                        </label>
+                    </div>
+                    <div class="error-message" id="termsError">You must agree to the Terms and Conditions</div>
+                </div>
+
+                <button type="submit" class="register-button">Register</button>
+            </form>
+
+            <div class="footer-link">
+                Already Have An Account? <a href="#" id="loginLink">Login</a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Get form elements
+        const registrationForm = document.getElementById('registrationForm');
+        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('emailOrLrn');
+        const passwordInput = document.getElementById('password');
+        const repeatPasswordInput = document.getElementById('repeatPassword');
+        const agreeTermsCheckbox = document.getElementById('agreeTerms');
+
+        // Get error message elements
+        const usernameError = document.getElementById('usernameError');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const repeatPasswordError = document.getElementById('repeatPasswordError');
+        const termsError = document.getElementById('termsError');
+
+        // Remove error states on input for username
+        usernameInput.addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                this.classList.remove('error');
+                usernameError.classList.remove('show');
+            }
+        });
+
+        // Remove error states on input for email
+        emailInput.addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                this.classList.remove('error');
+                emailError.classList.remove('show');
+            }
+        });
+
+        // Remove error states on input for password
+        passwordInput.addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                this.classList.remove('error');
+                passwordError.classList.remove('show');
+            }
+            // Also revalidate repeat password if it has a value
+            if (repeatPasswordInput.value.trim() !== '') {
+                validatePasswordMatch();
+            }
+        });
+
+        // Remove error states on input for repeat password and validate match
+        repeatPasswordInput.addEventListener('input', function() {
+            validatePasswordMatch();
+        });
+
+        // Function to validate password match
+        function validatePasswordMatch() {
+            const password = passwordInput.value;
+            const repeatPassword = repeatPasswordInput.value;
+            
+            if (repeatPassword === '') {
+                repeatPasswordInput.classList.remove('error');
+                repeatPasswordInput.classList.remove('success');
+                repeatPasswordError.classList.remove('show');
+            } else if (password === repeatPassword) {
+                repeatPasswordInput.classList.remove('error');
+                repeatPasswordInput.classList.add('success');
+                repeatPasswordError.classList.remove('show');
+            } else {
+                repeatPasswordInput.classList.add('error');
+                repeatPasswordInput.classList.remove('success');
+                repeatPasswordError.textContent = 'Passwords do not match';
+                repeatPasswordError.classList.add('show');
+            }
+        }
+
+        // Remove error state when checkbox is checked
+        agreeTermsCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                termsError.classList.remove('show');
+            }
+        });
+
+        // Form submission handler
+        registrationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset all error states
+            usernameInput.classList.remove('error');
+            emailInput.classList.remove('error');
+            passwordInput.classList.remove('error');
+            repeatPasswordInput.classList.remove('error', 'success');
+            usernameError.classList.remove('show');
+            emailError.classList.remove('show');
+            passwordError.classList.remove('show');
+            repeatPasswordError.classList.remove('show');
+            termsError.classList.remove('show');
+            
+            let isValid = true;
+            
+            // Validate username
+            if (usernameInput.value.trim() === '') {
+                usernameInput.classList.add('error');
+                usernameError.textContent = 'Please enter a username';
+                usernameError.classList.add('show');
+                isValid = false;
+            }
+            
+            // Validate email/LRN
+            if (emailInput.value.trim() === '') {
+                emailInput.classList.add('error');
+                emailError.textContent = 'Please enter your email or LRN';
+                emailError.classList.add('show');
+                isValid = false;
+            }
+            
+            // Validate password
+            const password = passwordInput.value.trim();
+            if (password === '') {
+                passwordInput.classList.add('error');
+                passwordError.textContent = 'Please enter a password';
+                passwordError.classList.add('show');
+                isValid = false;
+            } else if (password.length < 8) {
+                passwordInput.classList.add('error');
+                passwordError.textContent = 'Password must be at least 8 characters';
+                passwordError.classList.add('show');
+                isValid = false;
+            }
+            
+            // Validate repeat password
+            const repeatPassword = repeatPasswordInput.value.trim();
+            if (repeatPassword === '') {
+                repeatPasswordInput.classList.add('error');
+                repeatPasswordError.textContent = 'Please confirm your password';
+                repeatPasswordError.classList.add('show');
+                isValid = false;
+            } else if (password !== repeatPassword) {
+                repeatPasswordInput.classList.add('error');
+                repeatPasswordError.textContent = 'Passwords do not match';
+                repeatPasswordError.classList.add('show');
+                isValid = false;
+            }
+            
+            // Validate terms and conditions checkbox
+            if (!agreeTermsCheckbox.checked) {
+                termsError.classList.add('show');
+                isValid = false;
+            }
+            
+            // If all validation passes
+            if (isValid) {
+                // Get form values
+                const formData = {
+                    username: usernameInput.value.trim(),
+                    emailOrLrn: emailInput.value.trim(),
+                    password: password,
+                    agreeToTerms: agreeTermsCheckbox.checked
+                };
+                
+                // Log the values (for demonstration purposes)
+                console.log('Registration attempt:', {
+                    username: formData.username,
+                    emailOrLrn: formData.emailOrLrn,
+                    password: '***hidden***',
+                    agreeToTerms: formData.agreeToTerms
+                });
+                
+                // Success message
+                alert('Registration successful! Form is ready for backend integration.');
+                
+                // Here you would typically send the data to your backend:
+                // fetch('/api/register', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify(formData)
+                // })
+                // .then(response => response.json())
+                // .then(data => {
+                //     // Handle successful registration
+                //     window.location.href = '/login';
+                // })
+                // .catch(error => {
+                //     console.error('Registration error:', error);
+                // });
+            } else {
+                // Scroll to first error
+                const firstError = document.querySelector('.form-input.error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
+                }
+            }
+        });
+
+        // Terms and Conditions link handler
+        document.getElementById('termsLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Terms and Conditions - to be implemented');
+        });
+
+        // Login link handler
+        document.getElementById('loginLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Redirect to login page
+            alert('Redirecting to login page...');
+            // window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

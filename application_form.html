@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Application Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="form/main.css" />
+  <link rel="stylesheet" href="assets/application.css" />
+  <script src="assets/application.js" defer></script>
+</head>
+<body class="public-application">
+  <header class="student-header">
+    <div class="logo-placeholder" id="logo-left" aria-label="School logo">
+      <img src="assets/logo1.png" alt="School logo" />
+    </div>
+    <div class="student-header__title">
+      <h1 class="school-name">Bongabon National High School</h1>
+      <p class="system-name">Web-Based Enrollment System</p>
+    </div>
+    <div class="logo-placeholder" id="logo-right" aria-label="DepEd logo">
+      <img src="assets/logo2.png" alt="DepEd logo" />
+    </div>
+  </header>
+
+  <header class="application-hero application-mobile">
+    <div class="application-hero__bar">
+      <a href="admission.html"><span aria-hidden="true">&larr;</span> Admissions</a>
+      <img src="assets/logo1.png" alt="Bongabon National High School" width="36" height="36" />
+    </div>
+    <div class="application-hero__content">
+      <p>Bongabon National High School</p>
+      <h1>Online application</h1>
+    </div>
+  </header>
+
+  <main class="page">
+    <form id="applicationForm" method="post" action="controllers/application.php" enctype="multipart/form-data">
+      <nav class="application-progress application-mobile" aria-label="Application progress">
+        <div class="application-progress__top">
+          <p><span id="applicationStepCount">Step 1 of 6</span><strong id="applicationStepLabel">Student details</strong></p>
+          <details class="application-progress__menu" id="applicationStepMenu">
+            <summary>All steps</summary>
+            <ol>
+              <li><button type="button" data-go-to-step="0">Student details</button></li>
+              <li><button type="button" data-go-to-step="1">Contact details</button></li>
+              <li><button type="button" data-go-to-step="2">School and tracks</button></li>
+              <li><button type="button" data-go-to-step="3">Family details</button></li>
+              <li><button type="button" data-go-to-step="4">Documents</button></li>
+              <li><button type="button" data-go-to-step="5">Review and submit</button></li>
+            </ol>
+          </details>
+        </div>
+        <progress id="applicationProgressBar" max="6" value="1" aria-label="Application step"></progress>
+      </nav>
+      <!-- Application Details (copied from admin application form) -->
+      <section class="card application-intro">
+        <header class="card__header">
+          <span class="icon icon--clipboard" aria-hidden="true"></span>
+          <h2>Application Details</h2>
+        </header>
+
+        <div class="subheading">Application Form</div>
+      </section>
+
+      <!-- Personal Information -->
+      <section class="card application-personal" data-application-step="0">
+        <header class="card__header">
+          <span class="icon icon--user" aria-hidden="true"></span>
+          <h2>Personal Information</h2>
+        </header>
+        <p class="application-step-description application-mobile">Enter your name as it appears in your school records. Fields marked * are required.</p>
+
+        <div class="grid grid-2">
+          <!-- Left column -->
+          <div class="application-personal__identity">
+            <div class="field">
+              <label for="first_name">First Name<span class="application-required application-mobile" aria-hidden="true"> *</span></label>
+              <input id="first_name" type="text" name="first_name" autocomplete="given-name" required />
+            </div>
+            <div class="field">
+              <label for="middle_name">Middle Name</label>
+              <input id="middle_name" type="text" name="middle_name" autocomplete="additional-name" />
+            </div>
+            <div class="field">
+              <label for="last_name">Last Name<span class="application-required application-mobile" aria-hidden="true"> *</span></label>
+              <input id="last_name" type="text" name="last_name" autocomplete="family-name" required />
+            </div>
+            <div class="field">
+              <label for="birthdate">Date of Birth</label>
+              <input id="birthdate" type="date" name="birthdate" autocomplete="bday" />
+            </div>
+            <div class="field">
+              <label for="age">Age</label>
+              <input id="age" type="number" name="age" min="0" inputmode="numeric" />
+            </div>
+            <div class="field">
+              <label for="birthplace">Birthplace</label>
+              <input id="birthplace" type="text" name="birthplace" />
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div>
+            <div class="grid grid-2 compact">
+              <div class="field">
+                <label for="sex">Sex</label>
+                <div class="select-wrap">
+                  <select id="sex" name="sex">
+                    <option selected hidden> </option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="citizenship">Citizenship</label>
+                <input id="citizenship" type="text" name="citizenship" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="religion">Religion</label>
+              <div class="select-wrap">
+                <select id="religion" name="religion">
+                  <option value="" selected hidden>Choose religion</option>
+                  <option>Roman Catholic</option>
+                  <option>Iglesia ni Cristo</option>
+                  <option>Protestant</option>
+                  <option>Born Again</option>
+                  <option>Aglipayan (Philippine Independent Church)</option>
+                  <option>Islam</option>
+                  <option>Evangelical</option>
+                  <option>Jehovah's Witnesses</option>
+                  <option>Buddhism</option>
+                  <option>Hinduism</option>
+                  <option>None</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Details -->
+      <section class="card application-contact" data-application-step="1">
+        <header class="card__header">
+          <h2>Contact Details</h2>
+        </header>
+        <p class="application-step-description application-mobile">Use an email address and mobile number you can access for enrollment updates.</p>
+
+        <div class="grid grid-2">
+          <div class="application-address">
+            <div class="group">
+              <div class="label-bar">Current Address</div>
+              <div class="field">
+                <label for="house_no">House No.</label>
+                <input id="house_no" type="text" name="house_no" autocomplete="address-line1" />
+              </div>
+
+              <div class="grid grid-2 compact">
+                <div class="field">
+                  <label for="barangay">Barangay</label>
+                  <input id="barangay" type="text" name="barangay" autocomplete="address-level3" />
+                </div>
+                <div class="field">
+                  <label for="municipality">Municipality</label>
+                  <input id="municipality" type="text" name="municipality" autocomplete="address-level2" />
+                </div>
+              </div>
+
+              <div class="grid grid-2 compact">
+                <div class="field">
+                  <label for="country">Country</label>
+                  <input id="country" type="text" name="country" autocomplete="country-name" />
+                </div>
+                <div class="field">
+                  <label for="province">Province</label>
+                  <input id="province" type="text" name="province" autocomplete="address-level1" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="zip_code">Zip Code</label>
+                <input id="zip_code" type="text" name="zip_code" inputmode="numeric" autocomplete="postal-code" />
+              </div>
+            </div>
+          </div>
+
+          <div class="application-contact-methods">
+            <div class="grid grid-2 compact">
+              <div class="field with-icon">
+                <label for="mobile">Mobile Number</label>
+                <input id="mobile" type="text" name="mobile" inputmode="tel" autocomplete="tel" />
+              </div>
+              <div class="field">
+                <label for="email">Email Address</label>
+                <input id="email" type="email" name="email" autocomplete="email" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Educational Background -->
+      <section class="card" data-application-step="2">
+        <header class="card__header">
+          <h2>Educational Background</h2>
+        </header>
+        <p class="application-step-description application-mobile">Enter your 12-digit Learner Reference Number and your current school details.</p>
+
+        <div class="grid grid-2">
+          <div>
+            <div class="field">
+              <label for="school_name">Current School Name</label>
+              <input id="school_name" type="text" name="school_name" />
+            </div>
+            <div class="field">
+              <label for="school_address">School Address</label>
+              <input id="school_address" type="text" name="school_address" />
+            </div>
+          </div>
+
+          <div>
+            <div class="field">
+              <label for="lrnInput">Learner Reference Number (LRN)<span class="application-required application-mobile" aria-hidden="true"> *</span></label>
+              <input id="lrnInput" type="text" name="lrn" inputmode="numeric" placeholder="12-digit number" maxlength="12" pattern="[0-9]{12}" required />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Family Background -->
+      <section class="card" data-application-step="3">
+        <header class="card__header">
+          <h2>Family Background</h2>
+        </header>
+        <p class="application-step-description application-mobile">Provide parent or guardian information where applicable.</p>
+
+        <div class="grid grid-2 side-by-side">
+          <!-- Father's Information -->
+          <details class="pane" open>
+            <summary><span class="icon icon--person" aria-hidden="true"></span> Father</summary>
+            <div class="grid grid-2 compact">
+              <div class="field">
+                <label for="father_first">First Name</label>
+                <input id="father_first" type="text" name="father_first" />
+              </div>
+              <div class="field">
+                <label for="father_last">Last Name</label>
+                <input id="father_last" type="text" name="father_last" />
+              </div>
+            </div>
+            <div class="field with-icon">
+              <label for="father_contact">Contact Number</label>
+              <input id="father_contact" type="text" name="father_contact" inputmode="tel" />
+            </div>
+          </details>
+
+          <!-- Mother's Maiden Name -->
+          <details class="pane" open>
+            <summary><span class="icon icon--person" aria-hidden="true"></span> Mother’s Maiden Name</summary>
+            <div class="grid grid-2 compact">
+              <div class="field">
+                <label for="mother_first">First Name</label>
+                <input id="mother_first" type="text" name="mother_first" />
+              </div>
+              <div class="field">
+                <label for="mother_last">Last Name</label>
+                <input id="mother_last" type="text" name="mother_last" />
+              </div>
+            </div>
+            <div class="field with-icon">
+              <label for="mother_contact">Contact Number</label>
+              <input id="mother_contact" type="text" name="mother_contact" inputmode="tel" />
+            </div>
+          </details>
+        </div>
+
+        <!-- Guardian (if applicable) -->
+        <details class="pane">
+          <summary><span class="icon icon--shield" aria-hidden="true"></span> Guardian (if applicable)</summary>
+          <div class="field">
+            <label for="guardian_name">Name</label>
+            <input id="guardian_name" type="text" name="guardian_name" />
+          </div>
+          <div class="field">
+            <label for="guardian_relation">Relationship</label>
+            <input id="guardian_relation" type="text" name="guardian_relation" />
+          </div>
+          <div class="field with-icon">
+            <label for="guardian_contact">Contact Number</label>
+            <input id="guardian_contact" type="text" name="guardian_contact" inputmode="tel" />
+          </div>
+        </details>
+      </section>
+
+      <!-- Section Selection -->
+      <section class="card" data-application-step="2">
+        <header class="card__header">
+          <h2>Curriculum</h2>
+        </header>
+
+        <div class="inner-panel">
+          <div class="question">
+            <p>Choose the tracks you want to apply for.</p>
+            <div class="application-tracks">
+
+              <label class="checkbox">
+                <input type="checkbox" name="sections[]" value="spict" />
+                <span class="checkbox__box"></span>
+                <span class="checkbox__label">SPICT</span>
+              </label>
+
+              <label class="checkbox">
+                <input type="checkbox" name="sections[]" value="ste" />
+                <span class="checkbox__box"></span>
+                <span class="checkbox__label">STE</span>
+              </label>
+
+              <label class="checkbox">
+                <input type="checkbox" name="sections[]" value="spj" />
+                <span class="checkbox__box"></span>
+                <span class="checkbox__label">SPJ</span>
+              </label>
+
+              <label class="checkbox">
+                <input type="checkbox" name="sections[]" value="spa" />
+                <span class="checkbox__box"></span>
+                <span class="checkbox__label">SPA</span>
+              </label>
+
+            </div>
+            <div id="sectionSchedules" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Password / Account Security -->
+      <section class="card" data-application-step="5">
+        <header class="card__header">
+          <h2>Account Security</h2>
+        </header>
+
+        <div class="inner-panel">
+          <div class="question">
+            <p>Please create a password. This will be your password for your account later</p>
+            <div class="grid grid-2 application-password-fields">
+              <div class="field">
+                <label for="password">Create Password<span class="application-required application-mobile" aria-hidden="true"> *</span></label>
+                <input type="password" id="password" name="password" minlength="8" placeholder="At least 8 characters" aria-label="Create password" autocomplete="new-password" required />
+              </div>
+              <div class="field">
+                <label for="confirmPassword">Confirm Password<span class="application-required application-mobile" aria-hidden="true"> *</span></label>
+                <input type="password" id="confirmPassword" name="confirmPassword" minlength="8" placeholder="Confirm password" aria-label="Confirm password" autocomplete="new-password" required />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Required Documents -->
+      <section class="card application-documents" data-application-step="4">
+        <header class="card__header">
+          <h2>Required Documents</h2>
+        </header>
+
+        <div class="inner-panel">
+          <div class="question">
+            <p class="application-desktop">Please upload the required documents (PDF or image):</p>
+            <p class="application-mobile">Attach PDF files or clear photos if you have them ready. You can continue without uploading files here.</p>
+            <div class="application-document-fields">
+              <label class="field">
+                <span class="checkbox__label">Copy of Report Card</span>
+                <input type="file" name="reportCard" accept=".pdf,image/*" aria-label="Upload copy of report card" />
+              </label>
+
+              <label class="field">
+                <span class="checkbox__label">Good Moral Character Certificate (signed by School Head)</span>
+                <input type="file" name="moralCharacter" accept=".pdf,image/*" aria-label="Upload good moral character certificate" />
+              </label>
+
+              <label class="field">
+                <span class="checkbox__label">Health Declaration Form</span>
+                <input type="file" name="healthDeclaration" accept=".pdf,image/*" aria-label="Upload health declaration form" />
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Indigenous & 4P’s Information -->
+      <section class="card application-support" data-application-step="3">
+        <header class="card__header">
+          <h2>Indigenous & 4P’s Information</h2>
+        </header>
+
+        <div class="inner-panel">
+          <!-- Block 1 -->
+          <div class="question">
+            <p id="applicationIpQuestion">Belong to any Indigenous Peoples (IP) Community/Indigenous Cultural Community?</p>
+            <div class="segmented" role="group" aria-labelledby="applicationIpQuestion">
+              <label class="segmented__option">
+                <input type="radio" name="ip" value="yes" />
+                <span class="segmented__dot"></span>
+                <span class="segmented__label">Yes</span>
+              </label>
+              <label class="segmented__option">
+                <input type="radio" name="ip" value="no" checked />
+                <span class="segmented__dot"></span>
+                <span class="segmented__label">No</span>
+              </label>
+              <span class="helper">if Yes, please specify</span>
+            </div>
+            <div class="field mt-12" data-application-conditional="ip">
+              <input type="text" name="indigenous_specify" aria-label="IP Specify" />
+            </div>
+          </div>
+
+          <!-- Block 2 -->
+          <div class="question">
+            <p id="applicationFourPsQuestion">Is your family a beneficiary of 4Ps?</p>
+            <div class="segmented" role="group" aria-labelledby="applicationFourPsQuestion">
+              <label class="segmented__option">
+                <input type="radio" name="fourps" value="yes" />
+                <span class="segmented__dot"></span>
+                <span class="segmented__label">Yes</span>
+              </label>
+              <label class="segmented__option">
+                <input type="radio" name="fourps" value="no" checked />
+                <span class="segmented__dot"></span>
+                <span class="segmented__label">No</span>
+              </label>
+              <span class="helper">if Yes, please write the 4Ps Household ID Number</span>
+            </div>
+            <div class="field mt-12" data-application-conditional="fourps">
+              <input type="text" name="fourps_household_id" aria-label="4Ps Household ID Number" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Certification + Submit -->
+      <section class="card application-review application-mobile" data-application-step="5">
+        <header class="card__header"><h2>Review your application</h2></header>
+        <div class="application-review__item">
+          <dl><dt>Applicant</dt><dd id="reviewApplicant"></dd></dl>
+          <button type="button" data-go-to-step="0" aria-label="Edit student details">Edit</button>
+        </div>
+        <div class="application-review__item">
+          <dl><dt>Email address</dt><dd id="reviewEmail"></dd></dl>
+          <button type="button" data-go-to-step="1" aria-label="Edit contact details">Edit</button>
+        </div>
+        <div class="application-review__item">
+          <dl><dt>LRN</dt><dd id="reviewLrn"></dd><dt>Tracks</dt><dd id="reviewTracks"></dd></dl>
+          <button type="button" data-go-to-step="2" aria-label="Edit school and track details">Edit</button>
+        </div>
+        <div class="application-review__item">
+          <dl><dt>Parent or guardian</dt><dd id="reviewFamily"></dd></dl>
+          <button type="button" data-go-to-step="3" aria-label="Edit family details">Edit</button>
+        </div>
+        <div class="application-review__item">
+          <dl><dt>Documents</dt><dd id="reviewDocuments"></dd></dl>
+          <button type="button" data-go-to-step="4" aria-label="Edit documents">Edit</button>
+        </div>
+      </section>
+      <section class="card application-certification" data-application-step="5">
+        <div class="submit-area">
+          <label class="checkbox">
+            <input type="checkbox" id="certify" />
+            <span class="checkbox__box"></span>
+            <span class="checkbox__label">I certify that the information provided above is true and correct.</span>
+          </label>
+
+          <button id="submitBtn" class="btn btn--primary" type="submit" disabled>
+            Submit Application
+          </button>
+        </div>
+      </section>
+      <div class="application-actions application-mobile" aria-label="Application actions">
+        <button id="applicationBack" class="application-actions__back" type="button"><span aria-hidden="true">&larr;</span> Back</button>
+        <button id="applicationNext" class="application-actions__primary" type="button">Continue <span aria-hidden="true">&rarr;</span></button>
+      </div>
+    </form>
+  </main>
+
+  <!-- Modal confirmation (shown after successful submit) -->
+  <div id="appMessageOverlay" aria-hidden="true">
+    <div id="appMessage" role="dialog" aria-modal="true" aria-labelledby="appMessageTitle" aria-describedby="appMessageBody">
+      <h3 id="appMessageTitle"></h3>
+      <div class="msg" id="appMessageBody"></div>
+      <div class="application-message-actions">
+        <button id="appMessageClose" class="btn btn--primary">OK</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

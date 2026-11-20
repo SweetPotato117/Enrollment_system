@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Section Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="workspace.css" />
+  <link rel="stylesheet" href="sections.css" />
+  <script src="workspace.js" defer></script>
+  <script src="sections.js" defer></script>
+</head>
+<body class="workspace">
+  <div data-workspace-shell></div>
+
+  <div class="tab-content tab-content--active">
+    <main id="workspace-main" class="page workspace-page" tabindex="-1">
+      <section class="card records-panel" aria-labelledby="sectionDirectoryTitle">
+        <header class="records-panel-heading section-directory-heading">
+          <div>
+            <h2 id="sectionDirectoryTitle">Section directory</h2>
+            <span id="sectionsCount" class="records-counter" aria-live="polite"></span>
+          </div>
+          <button type="button" id="openCreateSectionBtn" class="btn btn--primary section-command">Create section</button>
+        </header>
+        <div class="records-toolbar section-directory-toolbar">
+          <div class="field">
+            <label for="sectionSearch">Search by section, grade, or adviser</label>
+            <input type="search" id="sectionSearch" placeholder="Search sections" />
+          </div>
+          <div class="field">
+            <label for="sectionCurriculum">Curriculum</label>
+            <select id="sectionCurriculum">
+              <option value="">All curricula</option>
+            </select>
+          </div>
+        </div>
+        <ul id="sectionsContainer" class="section-directory" role="list" hidden></ul>
+        <p class="records-empty" id="sectionDirectoryMessage" role="status">Loading sections…</p>
+      </section>
+      <p class="section-storage-note">Section records are stored in this browser.</p>
+    </main>
+  </div>
+
+  <template id="sectionCardTemplate">
+    <li class="section-entry">
+      <div class="section-entry-meta">
+        <span class="section-entry-curriculum status-badge" data-card-curriculum></span>
+        <span data-card-grade></span>
+      </div>
+      <div class="section-entry-name">
+        <h3 data-card-name></h3>
+        <p data-card-adviser></p>
+      </div>
+      <div class="section-entry-footer">
+        <span data-card-size></span>
+        <button type="button" class="btn btn--secondary" data-open-section>View roster</button>
+      </div>
+    </li>
+  </template>
+
+  <dialog id="createSectionModal" class="workspace-dialog section-dialog" aria-labelledby="createSectionTitle">
+    <header class="modal__header">
+      <h2 id="createSectionTitle">Create section</h2>
+      <button type="button" class="modal__close" data-close-section-dialog aria-label="Close create section dialog">×</button>
+    </header>
+    <form id="createSectionForm" class="section-dialog-form">
+      <div class="modal__body">
+        <div class="field">
+          <label for="createCurriculum">Curriculum</label>
+          <select id="createCurriculum" autofocus>
+            <option value="regular">Regular</option>
+            <option value="spict">SPICT</option>
+            <option value="ste">STE</option>
+            <option value="spj">SPJ</option>
+            <option value="spa">SPA</option>
+            <option value="ict">ICT</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="createGradeLevel">Grade level</label>
+          <input id="createGradeLevel" placeholder="e.g. Grade 7" required />
+        </div>
+        <div class="field">
+          <label for="createSectionName">Section name</label>
+          <input id="createSectionName" placeholder="e.g. Sampaguita" required />
+        </div>
+        <div class="field">
+          <label for="createAdviserName">Adviser name <span class="section-optional">(optional)</span></label>
+          <input id="createAdviserName" />
+        </div>
+        <p class="section-form-error" id="createSectionError" role="alert" hidden></p>
+      </div>
+      <footer class="modal__footer">
+        <button type="button" class="btn btn--secondary" data-close-section-dialog>Cancel</button>
+        <button type="submit" id="saveCreateSection" class="btn btn--primary">Create section</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog id="viewSectionModal" class="workspace-dialog section-dialog section-roster-dialog" aria-labelledby="viewSectionTitle" aria-describedby="viewSectionContext">
+    <header class="modal__header">
+      <div>
+        <h2 id="viewSectionTitle">Section roster</h2>
+        <p id="viewSectionContext" class="section-optional"></p>
+      </div>
+      <button type="button" class="modal__close" data-close-section-dialog aria-label="Close section roster" autofocus>×</button>
+    </header>
+    <div class="modal__body">
+      <form id="sectionAdviserForm" class="section-inline-form">
+        <div class="field">
+          <label for="viewAdviserInput">Adviser</label>
+          <input id="viewAdviserInput" placeholder="Enter adviser name" />
+        </div>
+        <button type="submit" class="btn btn--secondary">Save adviser</button>
+      </form>
+      <div class="section-roster-heading">
+        <h3>Student roster</h3>
+        <span id="sectionRosterCount" class="records-counter" aria-live="polite"></span>
+      </div>
+      <form id="sectionStudentForm" class="section-inline-form">
+        <div class="field">
+          <label for="addStudentName">Student name</label>
+          <input id="addStudentName" placeholder="Full name" required />
+        </div>
+        <button type="submit" id="addStudentBtn" class="btn btn--secondary">Add student</button>
+      </form>
+      <ul id="studentsCards" class="section-roster" role="list" hidden></ul>
+      <p id="sectionRosterEmpty" class="section-roster-empty" hidden>No students in this section yet.</p>
+      <p class="section-form-feedback" id="sectionRosterFeedback" role="status" hidden></p>
+    </div>
+    <footer class="modal__footer">
+      <button type="button" class="btn btn--secondary" data-close-section-dialog>Done</button>
+    </footer>
+  </dialog>
+</body>
+</html>

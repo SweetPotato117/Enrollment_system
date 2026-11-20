@@ -1,0 +1,387 @@
+[2026-02-07T13:54:31+01:00] RAW: {"curriculum":"SPA","exam_date":"2026-02-13","exam_time":"13:00:00","venue":"asdf"}
+[2026-02-07T13:54:31+01:00] PARSED: Array
+(
+    [curriculum] => SPA
+    [exam_date] => 2026-02-13
+    [exam_time] => 13:00:00
+    [venue] => asdf
+)
+
+[2026-02-07T16:53:53+01:00] RESOLVE_CURRICULUM: ste => section_id=91
+[2026-02-07T16:53:54+01:00] RESOLVE_CURRICULUM: spict => section_id=61
+[2026-02-07T16:53:55+01:00] RESOLVE_CURRICULUM: ste => section_id=91
+[2026-02-07T16:54:04+01:00] RAW: {"curriculum":"STE","exam_date":"2026-02-26","exam_time":"23:56:00","venue":"s"}
+[2026-02-07T16:54:04+01:00] PARSED: Array
+(
+    [curriculum] => STE
+    [exam_date] => 2026-02-26
+    [exam_time] => 23:56:00
+    [venue] => s
+)
+
+[2026-02-07T16:54:04+01:00] RESOLVE_CURRICULUM: ste => section_id=91
+[2026-02-07T16:58:59+01:00] RESOLVE_CURRICULUM: ict => section_id=16
+[2026-02-07T16:59:03+01:00] RESOLVE_CURRICULUM: spa => section_id=46
+[2026-02-07T16:59:04+01:00] RESOLVE_CURRICULUM: spj => section_id=76
+[2026-02-07T16:59:05+01:00] RESOLVE_CURRICULUM: ste => section_id=91
+[2026-02-07T16:59:05+01:00] RESOLVE_CURRICULUM: spict => section_id=61
+[2026-02-07T16:59:06+01:00] RESOLVE_CURRICULUM: ste => section_id=91
+[2026-02-07T16:59:08+01:00] RESOLVE_CURRICULUM: spj => section_id=76
+[2026-02-07T16:59:09+01:00] RESOLVE_CURRICULUM: spa => section_id=46
+[2026-02-07T16:59:11+01:00] RESOLVE_CURRICULUM: spj => section_id=76
+[2026-02-07T16:59:12+01:00] RESOLVE_CURRICULUM: spa => section_id=46
+[2026-02-07T16:59:14+01:00] RESOLVE_CURRICULUM: ict => section_id=16
+[2026-02-07T16:59:15+01:00] RESOLVE_CURRICULUM: spict => section_id=61
+[2026-02-07T16:59:20+01:00] RAW: {"curriculum":"SPICT","exam_date":"2026-02-17","exam_time":"11:03:00","venue":"e"}
+[2026-02-07T16:59:20+01:00] PARSED: Array
+(
+    [curriculum] => SPICT
+    [exam_date] => 2026-02-17
+    [exam_time] => 11:03:00
+    [venue] => e
+)
+
+[2026-02-07T16:59:20+01:00] RESOLVE_CURRICULUM: spict => section_id=61
+[2026-02-07T16:59:52+01:00] RESOLVE_CURRICULUM: ict => section_id=16
+[2026-02-07T16:59:54+01:00] RESOLVE_CURRICULUM: spa => section_id=46
+[2026-02-07T16:59:55+01:00] RESOLVE_CURRICULUM: spj => section_id=76
+[2026-02-07T16:59:56+01:00] RESOLVE_CURRICULUM: ste => section_id=91
+[2026-02-07T16:59:56+01:00] RESOLVE_CURRICULUM: spict => section_id=61
+[2026-02-07T17:06:23+01:00] RESOLVE_CURRICULUM: spict => section_id=61
+[2026-02-07T17:06:59+01:00] RAW: {"curriculum":"SPICT","exam_date":"2026-02-13","exam_time":"08:00:00","venue":"classroom 1"}
+[2026-02-07T17:06:59+01:00] PARSED: Array
+(
+    [curriculum] => SPICT
+    [exam_date] => 2026-02-13
+    [exam_time] => 08:00:00
+    [venue] => classroom 1
+)
+
+[2026-02-07T17:06:59+01:00] RESOLVE_CURRICULUM: spict => section_id=61
+[2026-02-07T17:34:03+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T17:36:37+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T17:36:43+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T17:36:43+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-07T17:36:43+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T17:36:45+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-07T17:38:43+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T17:38:44+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-07T17:38:45+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-07T17:38:46+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-07T17:38:47+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-07T17:38:49+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T17:52:18+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T18:17:46+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T18:17:47+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T18:17:48+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T18:17:48+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-07T18:17:49+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T18:17:49+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-07T18:17:49+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-07T18:17:49+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-07T18:17:49+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T18:17:49+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-07T18:17:49+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-07T18:17:50+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-07T18:17:50+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-07T18:17:50+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-07T18:17:50+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-07T18:17:50+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-08T15:31:09+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T16:57:37+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T16:57:39+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-08T16:57:39+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T16:57:40+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T18:49:03+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:03:38+01:00] CURRICULUM_FILTER: regular => curriculum=regular
+[2026-02-08T20:26:56+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:26:58+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:26:58+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-08T20:26:59+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-08T20:26:59+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:26:59+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-08T20:27:00+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-08T20:27:00+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:27:00+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-08T20:27:00+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-08T20:27:01+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-08T20:27:01+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-08T20:27:01+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-08T20:27:01+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:27:01+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-08T20:27:53+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:30:38+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:33:14+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:33:16+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:33:16+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:33:16+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:33:17+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:31+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:35+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:47:35+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:49:06+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:49:07+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:49:07+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-08T20:49:08+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:49:08+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-08T20:49:08+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-08T20:49:08+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-08T20:49:08+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-08T20:49:08+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:49:08+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-08T20:49:09+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-08T20:49:09+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-08T20:49:09+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:49:09+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-08T20:49:09+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-08T20:49:42+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:51:55+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:54:40+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:55:00+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-08T20:55:07+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-08T20:55:08+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-08T20:55:29+01:00] RAW: {"curriculum":"ICT","exam_date":"2026-02-26","exam_time":"08:30:00","venue":"classroom 2"}
+[2026-02-08T20:55:29+01:00] PARSED: Array
+(
+    [curriculum] => ICT
+    [exam_date] => 2026-02-26
+    [exam_time] => 08:30:00
+    [venue] => classroom 2
+)
+
+[2026-02-08T20:55:29+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-08T20:55:44+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:55:47+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:55:48+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:55:48+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:55:48+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:55:48+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:55:49+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:57:57+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-08T20:57:57+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-08T20:57:57+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-08T20:57:57+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:57:57+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-08T20:59:15+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-08T20:59:15+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-08T20:59:15+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-08T20:59:15+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-08T20:59:15+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-09T04:45:05+01:00] CURRICULUM_FILTER: regular => curriculum=regular
+[2026-02-13T12:39:55+01:00] CURRICULUM_FILTER: batayan => curriculum=batayan
+[2026-02-13T12:58:58+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:46:41+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:51:09+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:52:11+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:13+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:14+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:14+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:14+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:14+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:14+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:15+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:15+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:15+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:15+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:15+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:16+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:16+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:16+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:16+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:16+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:16+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:16+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:17+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:17+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:17+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:17+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:17+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:18+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:18+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:18+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:18+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:19+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:55:19+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:20+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:20+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:21+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:21+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:21+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:21+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:21+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:21+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:22+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:22+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:22+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:22+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:22+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:23+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:23+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:23+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:23+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:23+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:24+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:24+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:24+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:24+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:25+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:25+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:25+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:25+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:25+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:25+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:25+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:26+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:26+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:26+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:26+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:26+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:27+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:27+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:27+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:27+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:27+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:27+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:28+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:28+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:28+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:28+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:29+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:29+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:29+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:29+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:29+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:29+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:29+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:30+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:30+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:30+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:30+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:30+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:30+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:30+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:30+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:31+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:31+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:31+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:31+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:31+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:31+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:31+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:32+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T17:59:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:01:13+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:01:14+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:01:14+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:01:14+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:01:15+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:03:33+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:03:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:03:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:03:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:05:10+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:07:12+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:10:29+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:12:19+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:21:31+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-13T18:43:11+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-13T18:43:12+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-13T18:43:12+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-13T18:43:14+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-13T18:43:14+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-13T18:43:14+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-13T20:43:18+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-13T20:43:19+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-13T20:43:19+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-13T20:43:20+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-13T20:43:20+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-13T20:43:20+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-13T20:43:21+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-13T20:43:21+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-13T20:43:21+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-13T20:43:21+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-13T20:47:34+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-13T20:47:35+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-13T20:47:35+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-13T20:47:36+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-13T20:47:36+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-13T20:47:36+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-14T04:58:46+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-14T04:58:47+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-14T04:58:47+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-14T04:58:47+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-14T04:58:47+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-14T04:58:47+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-14T04:58:48+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-14T04:58:48+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-14T04:58:48+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-14T04:58:48+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-14T04:58:49+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-14T04:58:49+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-14T04:58:49+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-14T04:58:49+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-14T04:58:49+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-14T05:04:47+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-14T05:04:47+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-14T05:04:47+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-14T05:04:47+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-14T05:04:47+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-14T05:08:47+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-14T05:08:47+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-14T05:08:47+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-14T05:08:47+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-14T05:08:47+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-02-14T05:10:43+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-02-14T05:10:43+01:00] CURRICULUM_FILTER: ict => curriculum=ict
+[2026-02-14T05:10:43+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-02-14T05:10:43+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-02-14T05:10:43+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-11-20T15:28:25+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-11-20T15:28:27+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-11-20T15:28:28+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-11-20T15:28:29+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-11-20T15:28:31+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-11-20T15:28:33+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-11-20T15:28:33+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-11-20T15:28:34+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-11-20T15:28:34+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-11-20T15:28:34+01:00] CURRICULUM_FILTER: spj => curriculum=spj
+[2026-11-20T15:28:34+01:00] CURRICULUM_FILTER: spict => curriculum=spict
+[2026-11-20T15:28:34+01:00] CURRICULUM_FILTER: ste => curriculum=ste
+[2026-11-20T15:28:34+01:00] CURRICULUM_FILTER: spa => curriculum=spa
+[2026-11-20T15:28:34+01:00] CURRICULUM_FILTER: spj => curriculum=spj

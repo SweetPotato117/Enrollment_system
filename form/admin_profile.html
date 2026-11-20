@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="workspace.css" />
+  <link rel="stylesheet" href="staff.css" />
+  <script src="workspace.js" defer></script>
+</head>
+<body class="workspace">
+  <div data-workspace-shell></div>
+
+  <div class="tab-content tab-content--active">
+    <main id="workspace-main" class="page workspace-page" tabindex="-1">
+      <div class="workspace-split staff-layout">
+        <section class="card records-panel" aria-labelledby="signedInAccountTitle">
+          <header class="records-panel-heading">
+            <h2 id="signedInAccountTitle">Signed-in account</h2>
+          </header>
+          <div class="staff-identity" id="profileIdentity" hidden>
+            <span class="staff-avatar" id="profileAvatar" aria-hidden="true"></span>
+            <div class="staff-identity-text">
+              <strong id="profileName"></strong>
+              <span id="profileEmail"></span>
+            </div>
+          </div>
+          <p class="records-empty" id="profileLoadStatus" role="status">Loading your profile…</p>
+          <div class="staff-session-actions" id="profileSessionActions" hidden>
+            <a class="workspace-button" id="profileSignIn" href="../index.html" hidden>Sign in</a>
+            <button type="button" class="btn btn--secondary" id="retryProfile" hidden>Try again</button>
+            <button type="button" class="btn btn--secondary" id="adminSignOut" hidden>Sign out</button>
+          </div>
+        </section>
+
+        <form class="card records-panel staff-settings" id="adminProfileForm" method="post" aria-labelledby="accountSettingsTitle">
+          <header class="records-panel-heading">
+            <h2 id="accountSettingsTitle">Account settings</h2>
+          </header>
+          <fieldset id="profileFields" disabled>
+            <legend class="sr-only">Edit administrator profile</legend>
+            <section class="staff-settings-section staff-form" aria-labelledby="accountDetailsTitle">
+              <h3 id="accountDetailsTitle">Account details</h3>
+              <div class="field">
+                <label for="adminName">Full name</label>
+                <input type="text" id="adminName" name="name" autocomplete="name" required />
+              </div>
+              <div class="field">
+                <label for="adminEmail">Email address</label>
+                <input type="email" id="adminEmail" name="email" autocomplete="username" required />
+              </div>
+            </section>
+            <section class="staff-settings-section staff-form" aria-labelledby="accountSecurityTitle">
+              <h3 id="accountSecurityTitle">Change password</h3>
+              <p class="staff-settings-hint" id="passwordHint">Leave these fields blank to keep your current password.</p>
+              <div class="field">
+                <label for="adminCurrentPassword">Current password</label>
+                <input type="password" id="adminCurrentPassword" name="currentPassword" autocomplete="current-password" aria-describedby="passwordHint" />
+              </div>
+              <div class="staff-password-fields">
+                <div class="field">
+                  <label for="adminNewPassword">New password</label>
+                  <input type="password" id="adminNewPassword" name="newPassword" autocomplete="new-password" />
+                </div>
+                <div class="field">
+                  <label for="adminConfirmPassword">Confirm new password</label>
+                  <input type="password" id="adminConfirmPassword" autocomplete="new-password" />
+                </div>
+              </div>
+            </section>
+          </fieldset>
+          <footer class="staff-settings-footer">
+            <p class="staff-feedback" id="profileFeedback" role="status"></p>
+            <div class="staff-edit-actions">
+              <a class="btn btn--secondary" href="admin_management.html">Cancel</a>
+              <button type="submit" class="btn btn--primary" id="saveProfile" disabled>Save profile</button>
+            </div>
+          </footer>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const profileForm = document.getElementById('adminProfileForm');
+    const fields = document.getElementById('profileFields');
+    const adminName = document.getElementById('adminName');
+    const adminEmail = document.getElementById('adminEmail');
+    const currentPassword = document.getElementById('adminCurrentPassword');
+    const newPassword = document.getElementById('adminNewPassword');
+    const confirmPassword = document.getElementById('adminConfirmPassword');
+    const feedback = document.getElementById('profileFeedback');
+    const retry = document.getElementById('retryProfile');
+    const save = document.getElementById('saveProfile');
+    const identity = document.getElementById('profileIdentity');
+    const loadStatus = document.getElementById('profileLoadStatus');
+    const sessionActions = document.getElementById('profileSessionActions');
+    const signIn = document.getElementById('profileSignIn');
+    const signOut = document.getElementById('adminSignOut');
+
+    function updateFeedback(message, state = '') {
+      feedback.dataset.state = state;
+      feedback.textContent = message;
+    }
+
+    function showIdentity() {
+      const name = adminName.value.trim();
+      const initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map(word => [...word][0]).join('');
+      document.getElementById('profileAvatar').textContent = initials.toUpperCase() || 'A';
+      document.getElementById('profileName').textContent = name || 'Administrator';
+      document.getElementById('profileEmail').textContent = adminEmail.value;
+      identity.hidden = false;
+      loadStatus.hidden = true;
+      sessionActions.hidden = false;
+      signOut.hidden = false;
+    }
+
+    function showSignIn() {
+      identity.hidden = true;
+      loadStatus.hidden = false;
+      loadStatus.textContent = 'Sign in to view and update your profile.';
+      signOut.hidden = true;
+      signIn.hidden = false;
+      sessionActions.hidden = false;
+    }
+
+    async function loadProfile() {
+      retry.disabled = true;
+      loadStatus.textContent = 'Loading your profile…';
+      try {
+        const response = await fetch('../controllers/admin_profile.php');
+        if (response.status === 401 || response.status === 404) {
+          retry.hidden = true;
+          showSignIn();
+          return;
+        }
+        const result = await response.json();
+        if (!response.ok || !result.ok) throw new Error(result.error || 'Unable to load profile');
+
+        adminName.value = result.data?.name || '';
+        adminEmail.value = result.data?.email || '';
+        fields.disabled = false;
+        save.disabled = false;
+        retry.hidden = true;
+        showIdentity();
+      } catch (error) {
+        console.error(error);
+        loadStatus.textContent = 'Unable to load your profile.';
+        sessionActions.hidden = false;
+        retry.hidden = false;
+      } finally {
+        retry.disabled = false;
+      }
+    }
+
+    function reportFieldError(input, message) {
+      input.setCustomValidity(message);
+      updateFeedback(message, 'error');
+      input.reportValidity();
+    }
+
+    profileForm.addEventListener('input', () => {
+      adminName.setCustomValidity('');
+      currentPassword.setCustomValidity('');
+      confirmPassword.setCustomValidity('');
+      updateFeedback('');
+    });
+
+    profileForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (save.disabled) return;
+
+      const name = adminName.value.trim();
+      if (!name) {
+        reportFieldError(adminName, 'Enter your full name.');
+        return;
+      }
+      if (newPassword.value !== confirmPassword.value) {
+        reportFieldError(confirmPassword, 'Your new passwords do not match.');
+        return;
+      }
+      if (newPassword.value && !currentPassword.value) {
+        reportFieldError(currentPassword, 'Enter your current password to confirm the change.');
+        return;
+      }
+
+      const data = new FormData(profileForm);
+      data.set('name', name);
+      data.set('email', adminEmail.value.trim());
+      if (!newPassword.value) {
+        data.delete('currentPassword');
+        data.delete('newPassword');
+      }
+
+      fields.disabled = true;
+      save.disabled = true;
+      let signedIn = true;
+      updateFeedback('Saving your profile…');
+      try {
+        const response = await fetch('../controllers/admin_profile.php', { method: 'POST', body: data });
+        if (response.status === 401) {
+          signedIn = false;
+          profileForm.reset();
+          showSignIn();
+          updateFeedback('Your session expired. Sign in to save your profile.', 'error');
+          return;
+        }
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+          updateFeedback(result.error || 'Unable to save your profile. Try again.', 'error');
+          return;
+        }
+        adminName.value = name;
+        adminEmail.value = data.get('email');
+        currentPassword.value = '';
+        newPassword.value = '';
+        confirmPassword.value = '';
+        showIdentity();
+        updateFeedback('Profile saved.', 'success');
+      } catch (error) {
+        console.error(error);
+        updateFeedback('Unable to save your profile. Try again.', 'error');
+      } finally {
+        fields.disabled = !signedIn;
+        save.disabled = !signedIn;
+      }
+    });
+
+    retry.addEventListener('click', loadProfile);
+    signOut.addEventListener('click', () => {
+      if (window.confirm('Sign out of the admin workspace?')) {
+        window.location.href = '../controllers/logout_admin.php';
+      }
+    });
+    loadProfile();
+  </script>
+</body>
+</html>

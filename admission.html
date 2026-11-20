@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admissions — Bongabon National High School</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:        #0b1f3a;
+      --navy-mid:    #163055;
+      --gold:        #c59a2e;
+      --gold-light:  #f0d98a;
+      --gold-faint:  #fdf7e3;
+      --green:       #1a6b3c;
+      --green-light: #e6f4ec;
+      --white:       #ffffff;
+      --off-white:   #f7f6f2;
+      --gray-100:    #f1f0eb;
+      --gray-200:    #e2dfd6;
+      --gray-400:    #9e9b8e;
+      --gray-600:    #5c5a52;
+      --gray-800:    #2a2924;
+      --red:         #9b1c1c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    .admissions-mobile { display: none; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--off-white);
+      color: var(--gray-800);
+      line-height: 1.7;
+    }
+
+    /* ─── TOPBAR ─── */
+    .topbar {
+      background: var(--navy);
+      padding: .45rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: .72rem;
+      color: rgba(255,255,255,.45);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .topbar span + span::before { content: '·'; margin: 0 .6rem; }
+
+    /* ─── HEADER / HERO ─── */
+    .hero {
+      background: linear-gradient(160deg, rgba(11,31,58,0.85) 0%, rgba(22,48,85,0.65) 60%), url('assets/bghs.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(ellipse 70% 50% at 100% 0%, rgba(197,154,46,.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 70% at 0% 100%, rgba(197,154,46,.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    /* subtle grid texture */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem 3.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.2rem;
+    }
+
+    /* Logo placeholder */
+    .logo-slot {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      border: 2.5px solid rgba(197,154,46,.5);
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .62rem;
+      color: var(--navy);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.4;
+      padding: .5rem;
+      margin-bottom: .3rem;
+      transition: border-color .3s;
+    }
+    .logo-slot img { height: 90px; display: block; }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(197,154,46,.15);
+      border: 1px solid rgba(197,154,46,.35);
+      color: var(--gold-light);
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: .3rem 1rem;
+      border-radius: 999px;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: var(--white);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: .01em;
+    }
+    .hero h1 .school-highlight { color: var(--gold-light); }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,.6);
+      max-width: 560px;
+      font-weight: 300;
+    }
+
+    .hero-divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .hero-tagline {
+      font-size: .85rem;
+      color: rgba(255,255,255,.38);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    /* ─── APPLY STRIP ─── */
+    .apply-strip {
+      background: var(--gold);
+      padding: 1.4rem 2rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .apply-strip p {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: .02em;
+    }
+    .apply-strip p span {
+      font-weight: 300;
+      font-size: .88rem;
+      display: block;
+      color: rgba(11,31,58,.6);
+    }
+    .btn-apply {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: var(--navy);
+      color: var(--white);
+      text-decoration: none;
+      padding: .8rem 2rem;
+      border-radius: 8px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+      font-size: .92rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 16px rgba(11,31,58,.2);
+    }
+    .btn-apply:hover {
+      background: #0f2d57;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(11,31,58,.3);
+    }
+    .btn-apply::after { content: '→'; font-size: 1rem; }
+
+    /* ─── LAYOUT ─── */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .admissions-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .admissions-about { order: -2; }
+    .admissions-achievements { order: -1; }
+
+    /* ─── SECTION TITLES ─── */
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      color: var(--navy);
+      font-weight: 700;
+      letter-spacing: .01em;
+      margin-bottom: 1.2rem;
+      padding-bottom: .7rem;
+      border-bottom: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .section-title .icon {
+      width: 22px; height: 22px;
+      flex-shrink: 0;
+    }
+
+    /* ─── ABOUT CARD ─── */
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 2px 20px rgba(11,31,58,.07);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .card-body { padding: 1.8rem 2rem; }
+    .card p {
+      color: var(--gray-600);
+      font-size: .95rem;
+      margin-bottom: .9rem;
+      font-weight: 300;
+    }
+    .card p:last-child { margin-bottom: 0; }
+    .card strong { color: var(--gray-800); font-weight: 600; }
+
+    /* ─── STAT ROW ─── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--gray-200);
+    }
+    .stat-item {
+      padding: 1.2rem 1.5rem;
+      text-align: center;
+      border-right: 1px solid var(--gray-200);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--navy);
+      display: block;
+    }
+    .stat-label {
+      font-size: .72rem;
+      color: var(--gray-400);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* ─── ACHIEVEMENTS ─── */
+    .achievement-list {
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+    }
+    .achievement-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .9rem;
+      padding: 1rem 1.2rem;
+      background: var(--gold-faint);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      font-size: .9rem;
+      color: var(--gray-600);
+      font-weight: 400;
+    }
+    .achievement-item .year {
+      flex-shrink: 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gold);
+      min-width: 42px;
+    }
+
+    /* ─── REQUIREMENTS TABLE ─── */
+    .req-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+    }
+    .req-table thead tr {
+      background: var(--navy);
+    }
+    .req-table th {
+      padding: .75rem 1.2rem;
+      color: rgba(255,255,255,.85);
+      text-align: left;
+      font-weight: 600;
+      font-size: .75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .req-table tbody tr {
+      border-bottom: 1px solid var(--gray-200);
+      transition: background .15s;
+    }
+    .req-table tbody tr:last-child { border-bottom: none; }
+    .req-table tbody tr:hover td { background: var(--gold-faint); }
+    .req-table td {
+      padding: .9rem 1.2rem;
+      color: var(--gray-600);
+      vertical-align: top;
+    }
+    .req-table td:first-child {
+      font-weight: 600;
+      color: var(--gray-800);
+      white-space: nowrap;
+    }
+    .req-tag {
+      display: inline-block;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .15rem .55rem;
+      border-radius: 4px;
+      margin-left: .4rem;
+      vertical-align: middle;
+    }
+    .req-tag.required { background: #fee2e2; color: var(--red); }
+    .req-tag.optional { background: var(--green-light); color: var(--green); }
+
+    /* ─── STEPS ─── */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      left: 20px; top: 22px; bottom: 22px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--gold), rgba(197,154,46,.1));
+    }
+    .step {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+      padding: 1rem 0;
+      position: relative;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--gold-light);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--gold);
+      position: relative;
+      z-index: 1;
+    }
+    .step-content { padding-top: .4rem; }
+    .step-content h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--navy);
+      font-weight: 700;
+      margin-bottom: .2rem;
+    }
+    .step-content p {
+      font-size: .88rem;
+      color: var(--gray-400);
+      font-weight: 300;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      position: sticky;
+      top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .sidebar-card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 2px 20px rgba(11,31,58,.07);
+      overflow: hidden;
+    }
+    .sidebar-card-header {
+      background: var(--navy);
+      padding: .9rem 1.3rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      font-weight: 700;
+      letter-spacing: .02em;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .sidebar-card-header .hline {
+      flex: 1;
+      height: 1px;
+      background: rgba(197,154,46,.3);
+    }
+    .sidebar-card-body { padding: 1.2rem 1.3rem; }
+
+    .info-list { list-style: none; }
+    .info-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: .8rem;
+      padding: .55rem 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: .88rem;
+    }
+    .info-list li:last-child { border-bottom: none; }
+    .info-list .il-label {
+      font-weight: 600;
+      color: var(--gray-600);
+      min-width: 80px;
+      font-size: .78rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding-top: .1rem;
+    }
+    .info-list .il-value { color: var(--gray-800); }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      padding: .6rem 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: .88rem;
+    }
+    .contact-item:last-child { border-bottom: none; }
+    .contact-icon {
+      width: 30px; height: 30px;
+      border-radius: 6px;
+      background: var(--gold-faint);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: .9rem;
+    }
+    .contact-label {
+      font-size: .7rem;
+      color: var(--gray-400);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      font-weight: 600;
+      display: block;
+    }
+    .contact-value { color: var(--gray-800); font-weight: 500; }
+    a.contact-value { text-decoration: none; }
+    a.contact-value:is(:hover, :focus-visible) { text-decoration: underline; }
+
+    /* Notice box */
+    .notice-box {
+      background: var(--green-light);
+      border: 1px solid #a7d7b9;
+      border-left: 4px solid var(--green);
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      font-size: .85rem;
+      color: #1a4a2e;
+      display: flex;
+      gap: .6rem;
+      align-items: flex-start;
+    }
+    .notice-box .ni { flex-shrink: 0; font-size: 1rem; }
+
+    /* CTA card in sidebar */
+    .cta-card {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      border-radius: 12px;
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(11,31,58,.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-card::before {
+      content: '';
+      position: absolute; right: -30px; top: -30px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: rgba(197,154,46,.08);
+    }
+    .cta-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      color: var(--white);
+      margin-bottom: .5rem;
+      font-weight: 700;
+      position: relative;
+    }
+    .cta-card p {
+      font-size: .82rem;
+      color: rgba(255,255,255,.5);
+      margin-bottom: 1.3rem;
+      font-weight: 300;
+      position: relative;
+    }
+    .btn-apply-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--gold);
+      color: var(--navy);
+      text-decoration: none;
+      padding: .85rem 1.8rem;
+      border-radius: 8px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 700;
+      font-size: .9rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 16px rgba(197,154,46,.3);
+      position: relative;
+    }
+    .btn-apply-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(197,154,46,.4);
+    }
+    .btn-apply-cta::after { content: '→'; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .footer-inner { max-width: 700px; margin: 0 auto; }
+    .footer-school {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      color: var(--gold-light);
+      font-weight: 700;
+      margin-bottom: .3rem;
+    }
+    .footer-address {
+      font-size: .8rem;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .05em;
+    }
+    .footer-divider {
+      width: 50px;
+      height: 1px;
+      background: rgba(197,154,46,.3);
+      margin: 1rem auto;
+    }
+    .footer-dept {
+      font-size: .72rem;
+      color: rgba(255,255,255,.25);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    .hero-inner > * { animation: fadeUp .6s ease both; }
+    .hero-inner > .logo-slot { animation-delay: .05s; }
+    .hero-inner > .hero-badge { animation-delay: .12s; }
+    .hero-inner > h1 { animation-delay: .19s; }
+    .hero-inner > .hero-sub { animation-delay: .26s; }
+    .hero-inner > .hero-divider { animation-delay: .33s; }
+    .hero-inner > .hero-tagline { animation-delay: .40s; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .hero-inner > * { animation: none; }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/admission-mobile.css" media="(max-width: 900px)">
+</head>
+<body>
+
+<!-- TOP MICRO BAR -->
+<div class="topbar">
+  <span>Republic of the Philippines</span>
+  <span>Department of Education — Region III</span>
+  <span>Division of Nueva Ecija</span>
+</div>
+
+<!-- HERO HEADER -->
+<header class="hero">
+  <div class="hero-inner">
+
+    <!-- LOGO -->
+    <div class="logo-slot" id="logoSlot">
+      <img src="assets/logo1.png" alt="BNHS logo" />
+    </div>
+    <div class="admissions-mobile admissions-brand">Bongabon National<br>High School</div>
+    <a class="admissions-mobile admissions-sign-in" href="index.html">Sign in</a>
+
+    <span class="hero-badge"><span class="admissions-desktop" aria-hidden="true">&#9733; </span>Admissions Open — S.Y. 2025–2026<span class="admissions-desktop" aria-hidden="true"> &#9733;</span></span>
+
+    <h1><span class="admissions-desktop">Bongabon National<br><span class="school-highlight">High School</span></span><span class="admissions-mobile">School admissions</span></h1>
+
+    <p class="hero-sub">
+      <span class="admissions-desktop">Brgy. Sinipit, Bongabon, Nueva Ecija — A SEAMEO-recognized model school at the foot of the Sierra Madre.</span>
+      <span class="admissions-mobile">Check the requirements and complete your application online.</span>
+    </p>
+
+    <div class="hero-divider"></div>
+
+    <p class="hero-tagline">Moving Forward Toward Excellence</p>
+
+  </div>
+</header>
+
+<!-- APPLY CTA STRIP -->
+  <div class="apply-strip">
+  <p>
+    Now accepting applications for incoming students
+    <span>Complete the online form to begin your enrollment journey</span>
+  </p>
+  <a href="application_form.html" class="btn-apply">Apply Now</a>
+</div>
+
+<nav class="admissions-mobile admissions-nav" aria-label="On this page">
+  <a href="#requirements">Requirements</a>
+  <a href="#how-to-apply">How to apply</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="content">
+
+  <!-- LEFT COLUMN -->
+  <div class="admissions-main">
+
+    <!-- ADMISSION REQUIREMENTS -->
+    <section id="requirements" aria-labelledby="requirements-title">
+      <h2 class="section-title" id="requirements-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#c59a2e" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Admission Requirements
+      </h2>
+
+      <div class="card">
+        <table class="req-table" aria-labelledby="requirements-title" role="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Document</th>
+              <th scope="col">Details</th>
+              <th scope="col">Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Report Card (Form 138)</td>
+              <td>Most recent school year, original copy</td>
+              <td><span class="req-tag required">Required</span></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Certificate of Good Moral Character</td>
+              <td>Issued by previous school, signed by the principal</td>
+              <td><span class="req-tag required">Required</span></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Health Clearance / Medical Certificate</td>
+              <td>Issued by a licensed physician or school clinic</td>
+              <td><span class="req-tag required">Required</span></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Birth Certificate (PSA)</td>
+              <td>Official PSA-issued copy; original or authenticated</td>
+              <td><span class="req-tag required">Required</span></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>1×1 or 2×2 ID Photo</td>
+              <td>Recent photo, white background, 2 copies</td>
+              <td><span class="req-tag required">Required</span></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Learner Reference Number (LRN)</td>
+              <td>From previous school enrollment records</td>
+              <td><span class="req-tag required">Required</span></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Barangay Clearance</td>
+              <td>For students transferring from another municipality</td>
+              <td><span class="req-tag optional">Conditional</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- STEPS -->
+    <section id="how-to-apply" aria-labelledby="steps-title">
+      <h2 class="section-title" id="steps-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#c59a2e" stroke-width="2" stroke-linecap="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        How to Apply
+      </h2>
+
+      <div class="card card-body">
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h3>Complete the Online Application Form</h3>
+              <p>Fill out all required fields in the official enrollment form. Make sure all personal details and contact information are accurate.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h3>Prepare Your Documents</h3>
+              <p>The form accepts a report card, good moral certificate, and health declaration if you have them ready. Contact the school for instructions on submitting the other documents.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h3>Wait for Review &amp; Confirmation</h3>
+              <p>The admissions office will review your submitted documents. You will be notified via email regarding the status of your application.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h3>Take the Entrance Examination</h3>
+              <p>Qualified applicants will be scheduled for an entrance examination. The date, time, and venue will be communicated by the school.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <h3>Enrollment Confirmation</h3>
+              <p>Successful applicants will be officially enrolled and assigned to their respective sections. Welcome to BNHS!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT THE SCHOOL -->
+    <section class="admissions-about" aria-labelledby="about-title">
+      <h2 class="section-title" id="about-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#c59a2e" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        About Our School
+      </h2>
+
+      <div class="card">
+        <div class="card-body">
+          <p>
+            <strong>Bongabon National High School (BNHS)</strong> is a fiscally autonomous secondary school nestled at the foot of the Sierra Madre mountain range in Brgy. Sinipit, Bongabon, Nueva Ecija. With a vibrant community of students and dedicated faculty, BNHS has long been a cornerstone of quality education in the region.
+          </p>
+          <p>
+            The school is equipped with <strong>48 instructional classrooms</strong> including science laboratories, computer and internet laboratories, and a Technology and Livelihood Education (TLE) laboratory. Beyond academics, students have access to a library, clinic, multi-purpose hall, ALS room, rehearsal room, and school canteens — making BNHS a complete learning environment.
+          </p>
+          <p>
+            Recognized as the <strong>"Most Effective Secondary School in Region III"</strong>, BNHS continues to serve as a pilot and model school, initiating transformative programs not just for students but for the broader community of Nueva Ecija.
+          </p>
+        </div>
+        <div class="stat-row">
+          <div class="stat-item">
+            <span class="stat-num">3,887</span>
+            <span class="stat-label">Students</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">120</span>
+            <span class="stat-label">Faculty &amp; Staff</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">48</span>
+            <span class="stat-label">Classrooms</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section class="admissions-achievements" aria-labelledby="achievements-title">
+      <h2 class="section-title" id="achievements-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#c59a2e" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        Milestones &amp; Achievements
+      </h2>
+
+      <div class="card card-body">
+        <div class="achievement-list">
+          <div class="achievement-item">
+            <span class="year">2001</span>
+            <span>Adopted by <strong>SEAMEO INNOTECH</strong> (Southeast Asian Ministers of Education Organization Regional Center for Educational Innovation and Technology), establishing BNHS as a recognized center of innovation.</span>
+          </div>
+          <div class="achievement-item">
+            <span class="year">2003</span>
+            <span>Became a member of the <strong>SEAMEO Regional Coalition of Schools on Quality and Equity in Education (RCS-QEE)</strong>, one of only five such schools in the Philippines.</span>
+          </div>
+          <div class="achievement-item">
+            <span class="year">2006</span>
+            <span>Formally introduced the <strong>Human Values-Based Water, Sanitation, and Hygiene Education (HVWSHE)</strong> project — piloting one of Southeast Asia's most impactful school-based environmental programs.</span>
+          </div>
+          <div class="achievement-item">
+            <span class="year">2007</span>
+            <span>BNHS science teachers co-authored a <strong>Science Activity Manual</strong> now used by over <strong>40,000 students</strong> across the province of Nueva Ecija, embedding HVWSHE values throughout the curriculum.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /left column -->
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- APPLY CTA -->
+    <div class="cta-card">
+      <h3>Start Your Application</h3>
+      <p>Applications for S.Y. 2025–2026 are now open. Secure your slot today.</p>
+      <a href="application_form.html" class="btn-apply-cta">Apply Now</a>
+    </div>
+
+    <!-- Key Dates removed per request -->
+
+    <!-- CONTACT -->
+    <section class="sidebar-card" id="contact" aria-labelledby="contact-title">
+      <h2 class="sidebar-card-header" id="contact-title">
+        📞 &nbsp; Contact Us
+        <span class="hline" aria-hidden="true"></span>
+      </h2>
+      <div class="sidebar-card-body">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <span class="contact-label">Address</span>
+            <span class="contact-value">Brgy. Sinipit, Bongabon, Nueva Ecija, Philippines</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🏫</div>
+          <div>
+            <span class="contact-label">Division</span>
+            <span class="contact-value">DepEd Division of Nueva Ecija, Region III</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <span class="contact-label">Email</span>
+            <a class="contact-value" href="mailto:bnhsenrollmentsystem@gmail.com">bnhsenrollmentsystem@gmail.com</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTICE -->
+    <div class="notice-box">
+      <span class="ni">ℹ️</span>
+      <span>All submitted documents are subject to verification. Falsification of any document will result in immediate disqualification from the admissions process.</span>
+    </div>
+
+  </aside>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-school">Bongabon National High School</div>
+    <div class="footer-address">Brgy. Sinipit, Bongabon, Nueva Ecija, Philippines</div>
+    <div class="footer-divider"></div>
+    <div class="footer-dept">Republic of the Philippines &nbsp;·&nbsp; Department of Education &nbsp;·&nbsp; Region III &nbsp;·&nbsp; Division of Nueva Ecija</div>
+  </div>
+</footer>
+
+</body>
+</html>
