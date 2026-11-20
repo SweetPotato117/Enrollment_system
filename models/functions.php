@@ -1,5 +1,5 @@
 <?php
-include 'dbconn.php';
+require_once __DIR__ . '/dbconn.php';
 
 function insertRecord($table, $data)
 {
