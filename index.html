@@ -303,6 +303,7 @@
         }
 
         .input-wrap { position: relative; }
+        .password-wrap .form-input { padding-right: 4.2rem; }
         .input-icon {
             position: absolute; left: .9rem; top: 50%;
             transform: translateY(-50%);
@@ -328,6 +329,25 @@
         }
         .form-input.error { border-color: var(--error); background: #fff8f8; }
         .form-input::placeholder { color: var(--gray-400); font-size: .86rem; }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: .75rem;
+            transform: translateY(-50%);
+            padding: .35rem .4rem;
+            border: 0;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--navy-light);
+            cursor: pointer;
+            font: 600 .72rem 'Work Sans', sans-serif;
+        }
+        .password-toggle:hover { background: var(--gray-100); }
+        .password-toggle:focus-visible {
+            outline: 2px solid var(--input-focus);
+            outline-offset: 2px;
+        }
 
         .field-error {
             display: none; font-size: .73rem;
@@ -502,11 +522,13 @@
                         <!-- Password field -->
                         <div class="form-group">
                             <label for="password" class="form-label">Password</label>
-                            <div class="input-wrap">
+                            <div class="input-wrap password-wrap">
                                 <span class="input-icon">●</span>
                                 <input type="password" id="password" name="password"
                                        class="form-input" placeholder="Enter your password"
                                        autocomplete="current-password">
+                                <button type="button" class="password-toggle" id="passwordToggle"
+                                        aria-label="Show password" aria-pressed="false">Show</button>
                             </div>
                             <div class="field-error" id="passwordError">Please enter your password.</div>
                         </div>
@@ -539,12 +561,17 @@
     const roleLabelSm   = document.getElementById('roleLabelSmall');
     const emailInput    = document.getElementById('emailOrLrn');
     const passInput     = document.getElementById('password');
+    const passToggle    = document.getElementById('passwordToggle');
     const emailError    = document.getElementById('emailError');
     const passError     = document.getElementById('passwordError');
     const serverError   = document.getElementById('serverError');
     const serverErrText = document.getElementById('serverErrorText');
     const identLabel    = document.getElementById('identifierLabel');
     const identIcon     = document.getElementById('identifierIcon');
+
+    function defaultIdentifierError() {
+        return roleInput.value === 'student' ? 'Please enter your LRN.' : 'Please enter your email or LRN.';
+    }
 
     // ── Apply role to form UI ──
     function applyRole(role) {
@@ -577,10 +604,20 @@
     function clearErrors() {
         emailInput.classList.remove('error');
         passInput.classList.remove('error');
+        emailError.textContent = defaultIdentifierError();
+        passError.textContent = 'Please enter your password.';
         emailError.classList.remove('show');
         passError.classList.remove('show');
         serverError.classList.remove('show');
     }
+
+    passToggle.addEventListener('click', () => {
+        const reveal = passInput.type === 'password';
+        passInput.type = reveal ? 'text' : 'password';
+        passToggle.textContent = reveal ? 'Hide' : 'Show';
+        passToggle.setAttribute('aria-label', reveal ? 'Hide password' : 'Show password');
+        passToggle.setAttribute('aria-pressed', String(reveal));
+    });
 
     // ── Role button clicks ──
     roleBtns.forEach(btn => {
@@ -600,14 +637,16 @@
         if (roleInput.value === 'student') {
             this.value = this.value.replace(/\D/g, '').slice(0, 12);
         }
-        if (this.value.trim()) {
-            this.classList.remove('error'); emailError.classList.remove('show');
-        }
+        this.classList.remove('error');
+        emailError.textContent = defaultIdentifierError();
+        emailError.classList.remove('show');
+        serverError.classList.remove('show');
     });
     passInput.addEventListener('input', function() {
-        if (this.value.trim()) {
-            this.classList.remove('error'); passError.classList.remove('show');
-        }
+        this.classList.remove('error');
+        passError.textContent = 'Please enter your password.';
+        passError.classList.remove('show');
+        serverError.classList.remove('show');
     });
 
     // ── Form submit ──
@@ -670,9 +709,15 @@
                 const message = (data && data.message) || 'Login failed. Please check your credentials.';
 
                 if (reason === 'password') {
-                    passInput.classList.add('error'); passError.classList.add('show'); passInput.focus();
-                } else if (reason === 'not_found') {
-                    emailInput.classList.add('error'); emailError.classList.add('show'); emailInput.focus();
+                    passInput.classList.add('error');
+                    passError.textContent = 'Incorrect password.';
+                    passError.classList.add('show');
+                    passInput.focus();
+                } else if (reason === 'not_found' || reason === 'invalid_email' || reason === 'invalid_lrn') {
+                    emailInput.classList.add('error');
+                    emailError.textContent = message;
+                    emailError.classList.add('show');
+                    emailInput.focus();
                 }
                 serverErrText.textContent = message; serverError.classList.add('show');
                 return;
@@ -695,7 +740,9 @@
             const reason = params.get('reason') || '';
             let msg = 'Invalid credentials. Please check your details.';
             if (reason === 'password')           msg = 'Incorrect password. Please try again.';
-            else if (/email|lrn/.test(reason))   msg = 'Account not found. Please check your email or LRN.';
+            else if (reason === 'not_found')     msg = 'Account not found. Please check your email or LRN.';
+            else if (reason === 'invalid_email') msg = 'Enter a valid email address.';
+            else if (reason === 'invalid_lrn')   msg = 'LRN must be exactly 12 digits.';
             else if (reason === 'disabled')      msg = 'This account has been disabled. Contact the administrator.';
             serverErrText.textContent = msg;
             serverError.classList.add('show');
